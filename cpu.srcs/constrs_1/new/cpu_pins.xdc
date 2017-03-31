@@ -1,8 +1,8 @@
 # BTNU
-set_property PACKAGE_PIN T18 [get_ports clk]    
+set_property PACKAGE_PIN W5 [get_ports clk]    
 set_property IOSTANDARD LVCMOS33 [get_ports clk]
 #set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets clk_IBUF]
-set_property CLOCK_BUFFER_TYPE NONE [get_ports clk]
+#set_property CLOCK_BUFFER_TYPE NONE [get_ports clk]
 
 # BTNC
 set_property PACKAGE_PIN U18 [get_ports reset]  
@@ -75,3 +75,40 @@ set_property IOSTANDARD LVCMOS33 [get_ports {Inport0[3]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {Inport0[2]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {Inport0[1]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {Inport0[0]}]
+
+
+# a
+set_property PACKAGE_PIN W7 [get_ports {seven[6]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seven[6]}]
+# b
+set_property PACKAGE_PIN W6 [get_ports {seven[5]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seven[5]}]
+# c
+set_property PACKAGE_PIN U8 [get_ports {seven[4]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seven[4]}]
+# d
+set_property PACKAGE_PIN V8 [get_ports {seven[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seven[3]}]
+#e
+set_property PACKAGE_PIN U5 [get_ports {seven[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seven[2]}]
+#f
+set_property PACKAGE_PIN V5 [get_ports {seven[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seven[1]}]
+#g
+set_property PACKAGE_PIN U7 [get_ports {seven[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seven[0]}]
+
+
+# an select pins
+set_property PACKAGE_PIN U2 [get_ports {an_sel[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {an_sel[0]}]
+
+set_property PACKAGE_PIN U4 [get_ports {an_sel[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {an_sel[1]}]
+
+set_property PACKAGE_PIN V4 [get_ports {an_sel[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {an_sel[2]}]
+
+set_property PACKAGE_PIN W4 [get_ports {an_sel[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {an_sel[3]}]

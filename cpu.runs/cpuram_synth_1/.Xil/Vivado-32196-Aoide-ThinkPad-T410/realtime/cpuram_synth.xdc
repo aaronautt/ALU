@@ -1,0 +1,7 @@
+set_property SRC_FILE_INFO {cfile:/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/ip/cpuram/cpuram_ooc.xdc rfile:../../../../../cpu.srcs/sources_1/ip/cpuram/cpuram_ooc.xdc id:1 order:EARLY scoped_inst:U0} [current_design]
+set_property src_info {type:SCOPED_XDC file:1 line:54 export:INPUT save:INPUT read:FILTER_OUT_OF_CONTEXT} [current_design]
+set_property HD.CLK_SRC BUFGCTRL_X0Y0 [get_ports clka]
+set_property src_info {type:TCL file:{} line:-1 export:INPUT save:INPUT read:READ} [current_design]
+set_property DONT_TOUCH true [get_cells U0]
+set_property src_info {type:SCOPED_XDC file:1 line:53 export:INPUT save:INPUT read:FILTER_OUT_OF_CONTEXT} [current_design]
+create_clock -period 20.000 -name TS_CLKA [get_ports clka]

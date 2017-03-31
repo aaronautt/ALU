@@ -39,7 +39,8 @@ entity cpu is
 PORT(clk : in STD_LOGIC;
 	 reset : in STD_LOGIC;
 	 Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
-	 Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0));
+	 Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
+   OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0));
 end cpu;
 
 architecture a of cpu is
@@ -57,16 +58,7 @@ signal ALU_OUT : SIGNED(7 downto 0);
 signal ALU_N, ALU_V, ALU_Z : STD_LOGIC;
 
 -- ------------ Declare the 512x8 RAM component --------------
---component microram is
---port (  CLOCK   : in STD_LOGIC ;
---		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
---		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
---		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
---		WE	: in STD_LOGIC 
---	 );
---end component;
-
-component microram_sim is
+component microram is
 port (  CLOCK   : in STD_LOGIC ;
 		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
 		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
@@ -74,6 +66,15 @@ port (  CLOCK   : in STD_LOGIC ;
 		WE	: in STD_LOGIC 
 	 );
 end component;
+
+-- component microram_sim is
+-- port (  CLOCK   : in STD_LOGIC ;
+-- 		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
+-- 		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
+-- 		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
+-- 		WE	: in STD_LOGIC 
+-- 	 );
+-- end component;
 -- ---------- Declare signals interfacing to RAM ---------------
 signal RAM_DATA_OUT : STD_LOGIC_VECTOR(7 downto 0);  -- DATAOUT output of RAM
 signal ADDR : STD_LOGIC_VECTOR(8 downto 0);	         -- ADDRESS input of RAM
@@ -91,6 +92,7 @@ signal A,B : SIGNED(7 downto 0);
 signal N,Z,V : STD_LOGIC;
 -- ---------- Declare the common data bus ------------------
 signal DATA : STD_LOGIC_VECTOR(7 downto 0);
+signal DATA_QU : STD_LOGIC_VECTOR(7 downto 0);
 
 -- -----------------------------------------------------
 -- This function returns TRUE if the given op code is a
@@ -114,37 +116,22 @@ end function;
 --where bit 7-4 are the 10's digit and 3-0 are the 1's digit
 -----------------------------------------------------------------
 function BCD_conv(constant input : STD_LOGIC_VECTOR(3 downto 0)) return STD_LOGIC_VECTOR is
-  variable output : STD_LOGIC_VECTOR(13 downto 0);
+  variable output : STD_LOGIC_VECTOR(6 downto 0);
 begin
   
-  case(input(7 downto 4)) is
-    when "0000" => output(13 downto 7) := "0000001";  -- '0'
-    when "0001" => output(13 downto 7) := "1001111";  -- '1'
-    when "0010" => output(13 downto 7) := "0010010";  -- '2'
-    when "0011" => output(13 downto 7) := "0000110";  -- '3'
-    when "0100" => output(13 downto 7) := "1001100";  -- '4' 
-    when "0101" => output(13 downto 7) := "0100100";  -- '5'
-    when "0110" => output(13 downto 7) := "0100000";  -- '6'
-    when "0111" => output(13 downto 7) := "0001111";  -- '7'
-    when "1000" => output(13 downto 7) := "0000000";  -- '8'
-    when "1001" => output(13 downto 7) := "0000100";  -- '9'
-    when others => output(13 downto 7) := "1110111";  -- dash in the middle for everything else
+  case input is
+    when "0000" => output := "0000001";  -- '0'
+    when "0001" => output := "1001111";  -- '1'
+    when "0010" => output := "0010010";  -- '2'
+    when "0011" => output := "0000110";  -- '3'
+    when "0100" => output := "1001100";  -- '4' 
+    when "0101" => output := "0100100";  -- '5'
+    when "0110" => output := "0100000";  -- '6'
+    when "0111" => output := "0001111";  -- '7'
+    when "1000" => output := "0000000";  -- '8'
+    when "1001" => output := "0000100";  -- '9'
+    when others => output := "1110111";  -- dash in the middle for everything else
   end case;
-
-  case(input(3 downto 0)) is
-    when "0000" => output(6 downto 0) := "0000001";  -- '0'
-    when "0001" => output(6 downto 0) := "1001111";  -- '1'
-    when "0010" => output(6 downto 0) := "0010010";  -- '2'
-    when "0011" => output(6 downto 0) := "0000110";  -- '3'
-    when "0100" => output(6 downto 0) := "1001100";  -- '4' 
-    when "0101" => output(6 downto 0) := "0100100";  -- '5'
-    when "0110" => output(6 downto 0) := "0100000";  -- '6'
-    when "0111" => output(6 downto 0) := "0001111";  -- '7'
-    when "1000" => output(6 downto 0) := "0000000";  -- '8'
-    when "1001" => output(6 downto 0) := "0000100";  -- '9'
-    when others => output(6 downto 0) := "1110111";  -- dash in the middle for everything else
-  end case;
-  
 
   return output;
 end function;     
@@ -155,8 +142,8 @@ end function;
 -- --------- from the DATA bus at the start of the next Fetch cycle. ------------------
 signal Exc_RegWrite : STD_LOGIC;        -- Latch data bus in A or B
 signal Exc_CCWrite : STD_LOGIC;         -- Latch ALU status bits in CCR
-  signal Exc_IOWrite : STD_LOGIC;         -- Latch data bus in I/O
-  signal Exc_IODoubleWrite : STD_LOGIC; -- latch both data buses in I/O
+signal Exc_IOWrite : STD_LOGIC;         -- Latch data bus in I/O
+signal Exc_IODoubleWrite : STD_LOGIC; -- latch both data into seven seg I/O
 	
 begin
 -- ------------ Instantiate the ALU component ---------------
@@ -166,9 +153,9 @@ U1 : alu PORT MAP (ALU_A, ALU_B, ALU_FUNC, ALU_OUT, ALU_N, ALU_V, ALU_Z);
 ALU_FUNC <= IR(6 downto 4);
 	
 -- ------------ Instantiate the RAM component -------------
---U2 : microram PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
+U2 : microram PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
 
-U2 : microram_sim PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
+--U2 : microram_sim PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
 
 -- ---------------- Generate RAM write enable ---------------------
 -- The address and data are presented to the RAM during the Memory phase, 
@@ -208,6 +195,8 @@ begin
     V <= '0';
     Outport0 <= (others => '0');
     Outport1 <= (others => '0');
+    OutportB <= (others => '1');
+    OutportA <= (others => '1');
     temp := 0;
   elsif(rising_edge(clk)) then
     case CurrState is
@@ -254,6 +243,12 @@ begin
                           Outport1 <= DATA;
                         end if;
                       end if;
+
+                      if(Exc_IODoubleWrite = '1') then -- write to seven seg s
+                        OutportA <= BCD_conv(std_logic_vector(DATA(3 downto 0)));
+                        OutportB <= BCD_conv(std_logic_vector(DATA(7 downto 4)));
+                      end if;
+
 
                       
 			when Others => CurrState <= Fetch;
@@ -334,10 +329,9 @@ begin
     
     when "0100000" =>    --BCD 0 #0100000r
       if(IR(0) = '0') then
-        bcd_temp := BCD_conv(STD_LOGIC_VECTOR(A));
+        DATA <= STD_LOGIC_VECTOR(A);
       else
-        bcd_temp := BCD_conv(STD_LOGIC_VECTOR(B));
-        
+        DATA <= STD_LOGIC_VECTOR(B);
       end if;
       Exc_IODoubleWrite <= '1';
       
