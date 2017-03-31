@@ -334,7 +334,12 @@ begin
         DATA <= STD_LOGIC_VECTOR(B);
       end if;
       Exc_IODoubleWrite <= '1';
-      
+
+--    when "0110000"|"0110001" =>    --Debounce
+--      if(IR(0) = '0') then
+
+
+
     when "0000010"|"0000011" =>	       -- STOR R,M
       null;
       

@@ -22,3 +22,21 @@ Finished Loading Part and Timing Information : Time (s): cpu = 00:01:16 ; elapse
 Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:16 ; elapsed = 00:01:16 . Memory (MB): peak = 1365.910 ; gain = 455.102 ; free physical = 450 ; free virtual = 7987
 Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:16 ; elapsed = 00:01:16 . Memory (MB): peak = 1365.910 ; gain = 455.102 ; free physical = 443 ; free virtual = 7979
 Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:16 ; elapsed = 00:01:17 . Memory (MB): peak = 1365.910 ; gain = 455.102 ; free physical = 443 ; free virtual = 7979
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:25 ; elapsed = 00:01:26 . Memory (MB): peak = 1388.910 ; gain = 478.102 ; free physical = 410 ; free virtual = 7949
+Finished Timing Optimization : Time (s): cpu = 00:01:25 ; elapsed = 00:01:26 . Memory (MB): peak = 1388.910 ; gain = 478.102 ; free physical = 410 ; free virtual = 7949
+Finished Technology Mapping : Time (s): cpu = 00:01:25 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7940
+Finished IO Insertion : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7940
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7940
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7940
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7940
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7939
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7939
+
+Report Cell Usage: 
++------+---------+------+
+|      |Cell     |Count |
++------+---------+------+
+|1     |RAMB18E1 |     1|
++------+---------+------+
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7939
+synth_design: Time (s): cpu = 00:01:24 ; elapsed = 00:01:24 . Memory (MB): peak = 1419.441 ; gain = 421.914 ; free physical = 381 ; free virtual = 7919

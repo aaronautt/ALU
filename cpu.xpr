@@ -38,13 +38,13 @@
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="3"/>
-    <Option Name="WTModelSimExportSim" Val="3"/>
-    <Option Name="WTQuestaExportSim" Val="3"/>
-    <Option Name="WTIesExportSim" Val="3"/>
-    <Option Name="WTVcsExportSim" Val="3"/>
-    <Option Name="WTRivieraExportSim" Val="3"/>
-    <Option Name="WTActivehdlExportSim" Val="3"/>
+    <Option Name="WTXSimExportSim" Val="4"/>
+    <Option Name="WTModelSimExportSim" Val="4"/>
+    <Option Name="WTQuestaExportSim" Val="4"/>
+    <Option Name="WTIesExportSim" Val="4"/>
+    <Option Name="WTVcsExportSim" Val="4"/>
+    <Option Name="WTRivieraExportSim" Val="4"/>
+    <Option Name="WTActivehdlExportSim" Val="4"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -66,6 +66,12 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/new/cpu.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/new/clerk_divisor.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -73,12 +79,6 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/alu_mux.vhd">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/new/cpu.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -158,6 +158,10 @@
         <CompFileExtendedInfo CompFileName="cpuram.xci" FileRelPathName="synth/cpuram.vhd"/>
         <CompFileExtendedInfo CompFileName="cpuram.xci" FileRelPathName="cpuram.veo"/>
         <CompFileExtendedInfo CompFileName="cpuram.xci" FileRelPathName="cpuram_ooc.xdc"/>
+        <CompFileExtendedInfo CompFileName="cpuram.xci" FileRelPathName="cpuram_stub.v"/>
+        <CompFileExtendedInfo CompFileName="cpuram.xci" FileRelPathName="cpuram_sim_netlist.v"/>
+        <CompFileExtendedInfo CompFileName="cpuram.xci" FileRelPathName="cpuram_stub.vhdl"/>
+        <CompFileExtendedInfo CompFileName="cpuram.xci" FileRelPathName="cpuram_sim_netlist.vhdl"/>
       </File>
       <Config>
         <Option Name="TopModule" Val="cpuram"/>
