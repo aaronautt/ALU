@@ -92,8 +92,9 @@ signal CurrState : STATE_TYPE;
 signal PC : UNSIGNED(8 downto 0);
 signal IR : STD_LOGIC_VECTOR(7 downto 0);
 signal MDR : STD_LOGIC_VECTOR(7 downto 0);
-	
-signal A,B : SIGNED(7 downto 0);
+
+--Added the additional C register for the clear bit function
+signal A,B,C : SIGNED(7 downto 0);
 signal N,Z,V : STD_LOGIC;
 -- ---------- Declare the common data bus ------------------
 signal DATA : STD_LOGIC_VECTOR(7 downto 0);
@@ -139,9 +140,21 @@ begin
   end case;
 
   return output;
-end function;     
+end function;
 
+-----------------------------------------------------------------------------
+--Function for clear bit that clears a specified bit in a vector
+-----------------------------------------------------------------------------
+function clear_bit(constant input : STD_LOGIC_VECTOR(7 downto 0), constant clr_bit : integer)
+  return STD_LOGIC_VECTOR is
+  variable temp : STD_LOGIC_VECTOR(7 downto 0) := "01111111";
+  variable output : STD_LOGIC_VECTOR(7 downto 0);
+begin
+  output := input and (temp ror clr_bit);
+  return output;
+end function;
 
+  
 	
 -- --------- Declare variables that indicate which registers are to be written --------
 -- --------- from the DATA bus at the start of the next Fetch cycle. ------------------
@@ -149,16 +162,21 @@ signal Exc_RegWrite : STD_LOGIC;        -- Latch data bus in A or B
 signal Exc_CCWrite : STD_LOGIC;         -- Latch ALU status bits in CCR
 signal Exc_IOWrite : STD_LOGIC;         -- Latch data bus in I/O
 signal Exc_IODoubleWrite : STD_LOGIC; -- latch both data into seven seg I/O
-signal Exc_DBWrite : STD_LOGIC;
+signal Exc_DBWrite : STD_LOGIC;         --debounce flag
+signal Exc_ClrWrite : STD_LOGIC;        -- clear bit flag
 
 -- flag for debounce state, 00 means it's not running, 01 means it's running,
 --10 means it finished and returned true, 11, means it finished and returned false
 signal debounce_state : STD_LOGIC_VECTOR(1 downto 0) := "00";
 signal debounce_count1, debounce_count0 : STD_LOGIC_VECTOR(3 downto 0) := "0000";
-signal debounce_latch: STD_LOGIC := '0';
 signal debounce_out1, debounce_out0 : STD_LOGIC_VECTOR(7 downto 0);
-signal debounce_start, debounce_stop : STD_LOGIC := '0';
+--signal debounce_start, debounce_stop : STD_LOGIC := '0';
 signal last_Inport1, last_Inport0 : STD_LOGIC := '0';
+
+----------------------------------------------------------------------
+--clear bit signals
+----------------------------------------------------------------------
+signal clr_bit_reg : STD_LOGIC_VECTOR(7 downto 0);
 begin
 -- ------------ Instantiate the ALU component ---------------
 U1 : alu PORT MAP (ALU_A, ALU_B, ALU_FUNC, ALU_OUT, ALU_N, ALU_V, ALU_Z);
@@ -185,6 +203,8 @@ end process;
 
 -------------------------------------------------------------------
 --debounce process
+-- constantly checks to see if inports are changin and updates two
+--registers for debounced output
 ------------------------------------------------------------------
 process (clk_250, DATA, IR, Inport0)
 begin
@@ -285,7 +305,7 @@ begin
                         end if;
                       end if;
                       
-                      if(Exc_CCWrite = '1') then    -- Updating flag bits
+                      if(Exc_CCWrite = '1' or Exc_ClrWrite = '1') then    -- Updating flag bits
                         V <= ALU_V;
                         N <= ALU_N;
                         Z <= ALU_Z;
@@ -332,6 +352,7 @@ begin
   Exc_IOWrite <= '0';
   Exc_IODoubleWrite <= '0';
   Exc_DBWrite <= '0';
+  Exc_ClrWrite <= '0';
 
 -- Same idea
   ALU_A <= A;
@@ -345,6 +366,9 @@ begin
                             
     when Memory => if(IR(0) = '0') then
                      DATA <= STD_LOGIC_VECTOR(A);
+                   elsif Exc_ClrWrite = '1' then
+                     DATA <= STD_LOGIC_VECTOR(C);-- writes register C to data
+                                                 -- if clear bit
                    else
                      DATA <= STD_LOGIC_VECTOR(B);
                    end if;
@@ -390,6 +414,10 @@ begin
     when "0000000"|"0000001" =>          -- LOAD M,R
       DATA <= RAM_DATA_OUT;
       Exc_RegWrite <= '1';
+
+    when "0000010" => ---Clear bit
+      Exc_ClrWrite <= '1';
+      DATA <= RAM_DATA_OUT;
 
     
     when "0100000" =>    --BCD 0 #0100000r
