@@ -41,16 +41,13 @@ end cputb1;
  
 architecture behavior of cputb1 is 
 -- Component Declaration for the Unit Under Test (UUT)
-component cpu
-    PORT(
-         clk : IN  std_logic;
-         reset : IN  std_logic;
-         Inport0 : IN  std_logic_vector(7 downto 0);
-         Inport1 : IN  std_logic_vector(7 downto 0);
-         Outport0 : OUT  std_logic_vector(7 downto 0);
-         Outport1 : OUT  std_logic_vector(7 downto 0);
-         OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0)
-        );
+component ALU_TOP is
+  Port (clk,reset : in STD_LOGIC;
+        an_sel : out STD_LOGIC_VECTOR(3 downto 0);
+        seven : out STD_LOGIC_VECTOR(6 downto 0);
+        Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
+        Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
+        btn_in : in STD_LOGIC_VECTOR(1 downto 0));
 end component;
 
 --Inputs
@@ -58,19 +55,22 @@ signal clk : std_logic := '0';
 signal reset : std_logic := '1';
 signal Inport0 : std_logic_vector(7 downto 0) := (others => '0');
 signal Inport1 : std_logic_vector(7 downto 0) := (others => '0');
+signal btn_in : std_logic_vector(1 downto 0) := "00";
 
 --Outputs
 signal Outport0 : std_logic_vector(7 downto 0);
 signal Outport1 : std_logic_vector(7 downto 0);
-signal OutportA, OutportB : std_logic_vector(6 downto 0);
+signal an_sel : std_logic_vector(3 downto 0);
+signal seven : std_logic_vector(6 downto 0);
+--signal OutportA, OutportB : std_logic_vector(6 downto 0);
 -- Clock period definitions
-constant clk_period : time := 10ns;
+constant clk_period : time := 100ns;
  
 begin
 -- Instantiate the Unit Under Test (UUT)
-C1 : cpu PORT MAP (clk => clk, reset => reset, Inport0 => Inport0, Inport1 => Inport1,
-                   Outport0 => Outport0, Outport1 => Outport1, OutportA => OutportA,
-                   OutportB => OutportB);
+C1 : ALU_TOP PORT MAP (clk => clk, reset => reset, Inport0 => Inport0, Inport1 => Inport1,
+                       Outport0 => Outport0, Outport1 => Outport1, btn_in => btn_in,
+                       an_sel => an_sel, seven => seven);
 
 -- Clock process 
 clk_process : process begin
@@ -82,6 +82,7 @@ clk_process : process begin
 stim_proc : process begin		
             wait for 100ns;     -- hold reset state for 100ns.
             reset <= '0';
+            
             wait;
             end process;
 

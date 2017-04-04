@@ -37,17 +37,20 @@ entity ALU_TOP is
         an_sel : out STD_LOGIC_VECTOR(3 downto 0);
         seven : out STD_LOGIC_VECTOR(6 downto 0);
         Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
-        Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0));
+        Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
+        btn_in : in STD_LOGIC_VECTOR(1 downto 0));
 end ALU_TOP;
 
 architecture Behavioral of ALU_TOP is
 
   component cpu is
     PORT(clk : in STD_LOGIC;
+         clk_250 :in STD_LOGIC;
          reset : in STD_LOGIC;
          Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
          Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
-         OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0));
+         OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
+         btn_in : in STD_LOGIC_VECTOR(1 downto 0));
   end component;
 
   component mux is
@@ -66,19 +69,28 @@ architecture Behavioral of ALU_TOP is
            clock_out_1hz : out std_logic);--1Hz
   end component;
 
+
 signal portA, portB : std_logic_vector(6 downto 0);
 signal clk250, clk100, clk1k, clk1hz : std_logic;
 
 begin
 ---
+  -- uncomment this to run it on a board
   C1 : cpu port map (clk => clk1hz, reset => reset, Inport1 => Inport1, Inport0 => Inport0, 
                      OutportB => portB, OutportA => portA, Outport1 => Outport1,
-                     Outport0 => Outport0);
+                     Outport0 => Outport0, clk_250 => clk250, btn_in => btn_in);
+
+
+  --uncomment this to simulate it
+  --C1 : cpu port map (clk => clk, reset => reset, Inport1 => Inport1, Inport0 => Inport0, 
+  --                   OutportB => portB, OutportA => portA, Outport1 => Outport1,
+  --                   Outport0 => Outport0, clk_250 => clk250, btn_in => btn_in);
 
 
   M1 : mux port map (clk => clk250, an_sel => an_sel, seven => seven,
                      InportA => portA, InportB => portB);
 
   C2 : clk_divise port map (clock_in => clk, clk_out => clk250, clock_out_fast => clk1k,
-                     clock_out_slow => clk100, clock_out_1hz => clk1hz);
+                            clock_out_slow => clk100, clock_out_1hz => clk1hz);
+
 end Behavioral;

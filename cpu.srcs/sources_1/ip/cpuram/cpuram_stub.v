@@ -1,7 +1,7 @@
 // Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2016.3 (lin64) Build 1682563 Mon Oct 10 19:07:26 MDT 2016
-// Date        : Thu Mar 30 20:57:35 2017
+// Date        : Mon Apr  3 20:43:02 2017
 // Host        : Aoide-ThinkPad-T410 running 64-bit Ubuntu 16.10
 // Command     : write_verilog -force -mode synth_stub
 //               /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/ip/cpuram/cpuram_stub.v

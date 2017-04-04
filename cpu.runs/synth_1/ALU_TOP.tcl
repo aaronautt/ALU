@@ -3,6 +3,7 @@
 # 
 
 set_param xicom.use_bs_reader 1
+set_msg_config -id {Common 17-41} -limit 10000000
 set_msg_config -id {HDL 9-1061} -limit 100000
 set_msg_config -id {HDL 9-1654} -limit 100000
 create_project -in_memory -part xc7a35tcpg236-1
@@ -23,9 +24,9 @@ set_property used_in_implementation false [get_files /home/aaron/school/EGR426/c
 read_vhdl -library xil_defaultlib {
   /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/microram.vhd
   /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu.vhd
+  /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd
   /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/clerk_divisor.vhd
   /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu_mux.vhd
-  /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd
   /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/ALU_TOP.vhd
 }
 foreach dcp [get_files -quiet -all *.dcp] {

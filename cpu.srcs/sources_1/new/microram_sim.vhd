@@ -53,19 +53,21 @@ type t_mem_data is array(0 to 511) of std_logic_vector(7 downto 0);
 
 -- Your program is entered here, as initialization values for the "mem_data" signal.
 signal mem_data : t_mem_data := (0 => "11110000", -- CLR A (dummy first instruction)
-                                 1 => "00000000", -- LOAD 10,A  
-                                 2 => X"0B",      -- ADDRESS -> 10
+                                 1 => "00000000", -- LOAD 13,A  
+                                 2 => X"0D",      -- ADDRESS -> 13
                                  3 => "00001000", -- OUT A
                                  4 => "01000000", -- BCDO A
                                  5 => "10100000", -- LSL A       
-                                 6 => "00001000", -- OUT A 
-                                 7 => "00000001", -- LOAD 11,B  
-                                 8 => X"0C",      -- ADDRESS -> 11
-                                 9 => "10000000", -- ADD A 
-                                 10 => "00001000", -- OUT A       
+                                 6 => "00001000", -- OUT A
+                                 7 => "01100000", -- debounce 0, A
+                                 8 => "00001000", -- OUT A
+                                 9 => "00000001", -- LOAD 14,B  
+                                 10 => X"0E",      -- ADDRESS -> 14
+                                 11 => "10000000", -- ADD A 
+                                 12 => "00001000", -- OUT A       
                                  -- test data --
-                                 11 => "00000001", -- memory location 10 set to 1
-                                 12 => "00000101", -- memory location 11 set to 5
+                                 13 => "00000001", -- memory location 10 set to 1
+                                 14 => "00000101", -- memory location 11 set to 5
                                  others => "11110000"); -- all other memory locations set to CLR A instr
 
 begin

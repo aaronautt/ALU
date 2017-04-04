@@ -2,35 +2,35 @@
 # Vivado v2016.3 (64-bit)
 # SW Build 1682563 on Mon Oct 10 19:07:26 MDT 2016
 # IP Build 1681267 on Mon Oct 10 21:28:31 MDT 2016
-# Start of session at: Thu Mar 30 20:55:58 2017
-# Process ID: 32196
+# Start of session at: Mon Apr  3 20:40:41 2017
+# Process ID: 5572
 # Current directory: /home/aaron/school/EGR426/cpu/cpu.runs/cpuram_synth_1
 # Command line: vivado -log cpuram.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source cpuram.tcl
 # Log file: /home/aaron/school/EGR426/cpu/cpu.runs/cpuram_synth_1/cpuram.vds
 # Journal file: /home/aaron/school/EGR426/cpu/cpu.runs/cpuram_synth_1/vivado.jou
 #-----------------------------------------------------------
 source cpuram.tcl -notrace
-Starting RTL Elaboration : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 1064.109 ; gain = 153.301 ; free physical = 677 ; free virtual = 8199
+Starting RTL Elaboration : Time (s): cpu = 00:00:15 ; elapsed = 00:00:15 . Memory (MB): peak = 1064.113 ; gain = 153.301 ; free physical = 1199 ; free virtual = 8091
 INFO: [Synth 8-638] synthesizing module 'cpuram' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/ip/cpuram/synth/cpuram.vhd:69]
 INFO: [Synth 8-256] done synthesizing module 'cpuram' (9#1) [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/ip/cpuram/synth/cpuram.vhd:69]
-Finished RTL Elaboration : Time (s): cpu = 00:01:03 ; elapsed = 00:01:04 . Memory (MB): peak = 1263.250 ; gain = 352.441 ; free physical = 462 ; free virtual = 8000
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:01:04 ; elapsed = 00:01:04 . Memory (MB): peak = 1263.250 ; gain = 352.441 ; free physical = 462 ; free virtual = 8000
+Finished RTL Elaboration : Time (s): cpu = 00:01:30 ; elapsed = 00:01:31 . Memory (MB): peak = 1263.785 ; gain = 352.973 ; free physical = 998 ; free virtual = 7891
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:01:31 ; elapsed = 00:01:31 . Memory (MB): peak = 1263.785 ; gain = 352.973 ; free physical = 998 ; free virtual = 7891
 INFO: [Device 21-403] Loading part xc7a35tcpg236-1
-Constraint Validation Runtime : Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 1365.910 ; gain = 0.000 ; free physical = 449 ; free virtual = 7987
-Finished Constraint Validation : Time (s): cpu = 00:01:16 ; elapsed = 00:01:16 . Memory (MB): peak = 1365.910 ; gain = 455.102 ; free physical = 450 ; free virtual = 7987
-Finished Loading Part and Timing Information : Time (s): cpu = 00:01:16 ; elapsed = 00:01:16 . Memory (MB): peak = 1365.910 ; gain = 455.102 ; free physical = 450 ; free virtual = 7987
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:16 ; elapsed = 00:01:16 . Memory (MB): peak = 1365.910 ; gain = 455.102 ; free physical = 450 ; free virtual = 7987
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:16 ; elapsed = 00:01:16 . Memory (MB): peak = 1365.910 ; gain = 455.102 ; free physical = 443 ; free virtual = 7979
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:16 ; elapsed = 00:01:17 . Memory (MB): peak = 1365.910 ; gain = 455.102 ; free physical = 443 ; free virtual = 7979
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:25 ; elapsed = 00:01:26 . Memory (MB): peak = 1388.910 ; gain = 478.102 ; free physical = 410 ; free virtual = 7949
-Finished Timing Optimization : Time (s): cpu = 00:01:25 ; elapsed = 00:01:26 . Memory (MB): peak = 1388.910 ; gain = 478.102 ; free physical = 410 ; free virtual = 7949
-Finished Technology Mapping : Time (s): cpu = 00:01:25 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7940
-Finished IO Insertion : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7940
-Finished Renaming Generated Instances : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7940
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7940
-Finished Renaming Generated Ports : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7940
-Finished Handling Custom Attributes : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7939
-Finished Renaming Generated Nets : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7939
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 1365.445 ; gain = 0.000 ; free physical = 982 ; free virtual = 7874
+Finished Constraint Validation : Time (s): cpu = 00:01:47 ; elapsed = 00:01:48 . Memory (MB): peak = 1365.445 ; gain = 454.633 ; free physical = 981 ; free virtual = 7873
+Finished Loading Part and Timing Information : Time (s): cpu = 00:01:47 ; elapsed = 00:01:48 . Memory (MB): peak = 1365.445 ; gain = 454.633 ; free physical = 981 ; free virtual = 7873
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:47 ; elapsed = 00:01:48 . Memory (MB): peak = 1365.445 ; gain = 454.633 ; free physical = 981 ; free virtual = 7873
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:48 ; elapsed = 00:01:48 . Memory (MB): peak = 1365.445 ; gain = 454.633 ; free physical = 974 ; free virtual = 7866
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:48 ; elapsed = 00:01:49 . Memory (MB): peak = 1365.445 ; gain = 454.633 ; free physical = 974 ; free virtual = 7866
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:02:02 ; elapsed = 00:02:03 . Memory (MB): peak = 1388.445 ; gain = 477.633 ; free physical = 946 ; free virtual = 7838
+Finished Timing Optimization : Time (s): cpu = 00:02:02 ; elapsed = 00:02:03 . Memory (MB): peak = 1388.445 ; gain = 477.633 ; free physical = 946 ; free virtual = 7838
+Finished Technology Mapping : Time (s): cpu = 00:02:02 ; elapsed = 00:02:03 . Memory (MB): peak = 1398.461 ; gain = 487.648 ; free physical = 937 ; free virtual = 7829
+Finished IO Insertion : Time (s): cpu = 00:02:03 ; elapsed = 00:02:04 . Memory (MB): peak = 1398.461 ; gain = 487.648 ; free physical = 937 ; free virtual = 7829
+Finished Renaming Generated Instances : Time (s): cpu = 00:02:03 ; elapsed = 00:02:04 . Memory (MB): peak = 1398.461 ; gain = 487.648 ; free physical = 937 ; free virtual = 7829
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:02:03 ; elapsed = 00:02:04 . Memory (MB): peak = 1398.461 ; gain = 487.648 ; free physical = 937 ; free virtual = 7829
+Finished Renaming Generated Ports : Time (s): cpu = 00:02:03 ; elapsed = 00:02:04 . Memory (MB): peak = 1398.461 ; gain = 487.648 ; free physical = 937 ; free virtual = 7829
+Finished Handling Custom Attributes : Time (s): cpu = 00:02:03 ; elapsed = 00:02:04 . Memory (MB): peak = 1398.461 ; gain = 487.648 ; free physical = 936 ; free virtual = 7829
+Finished Renaming Generated Nets : Time (s): cpu = 00:02:03 ; elapsed = 00:02:04 . Memory (MB): peak = 1398.461 ; gain = 487.648 ; free physical = 936 ; free virtual = 7829
 
 Report Cell Usage: 
 +------+---------+------+
@@ -38,5 +38,5 @@ Report Cell Usage:
 +------+---------+------+
 |1     |RAMB18E1 |     1|
 +------+---------+------+
-Finished Writing Synthesis Report : Time (s): cpu = 00:01:26 ; elapsed = 00:01:26 . Memory (MB): peak = 1398.926 ; gain = 488.117 ; free physical = 401 ; free virtual = 7939
-synth_design: Time (s): cpu = 00:01:24 ; elapsed = 00:01:24 . Memory (MB): peak = 1419.441 ; gain = 421.914 ; free physical = 381 ; free virtual = 7919
+Finished Writing Synthesis Report : Time (s): cpu = 00:02:03 ; elapsed = 00:02:04 . Memory (MB): peak = 1398.461 ; gain = 487.648 ; free physical = 936 ; free virtual = 7829
+synth_design: Time (s): cpu = 00:02:02 ; elapsed = 00:02:02 . Memory (MB): peak = 1419.977 ; gain = 422.445 ; free physical = 917 ; free virtual = 7809

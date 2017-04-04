@@ -1,7 +1,7 @@
 Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2016.3 (lin64) Build 1682563 Mon Oct 10 19:07:26 MDT 2016
-| Date         : Thu Mar 30 21:01:12 2017
+| Date         : Mon Apr  3 20:45:59 2017
 | Host         : Aoide-ThinkPad-T410 running 64-bit Ubuntu 16.10
 | Command      : report_timing_summary -warn_on_violation -max_paths 10 -file ALU_TOP_timing_summary_routed.rpt -rpx ALU_TOP_timing_summary_routed.rpx
 | Design       : ALU_TOP
@@ -54,7 +54,7 @@ Table of Contents
 --------------------
  There are 48 register/latch pins with no clock driven by root clock pin: clk (HIGH)
 
- There are 13 register/latch pins with no clock driven by root clock pin: C2/clk_out_reg/Q (HIGH)
+ There are 25 register/latch pins with no clock driven by root clock pin: C2/clk_out_reg/Q (HIGH)
 
  There are 107 register/latch pins with no clock driven by root clock pin: C2/clock_out_1hz_reg/Q (HIGH)
 
@@ -71,7 +71,7 @@ Table of Contents
 
 4. checking unconstrained_internal_endpoints
 --------------------------------------------
- There are 463 pins that are not constrained for maximum delay. (HIGH)
+ There are 485 pins that are not constrained for maximum delay. (HIGH)
 
  There are 0 pins that are not constrained for maximum delay due to constant clock.
 

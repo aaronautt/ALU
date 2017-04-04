@@ -34,13 +34,16 @@ use IEEE.STD_LOGIC_1164.ALL;
 LIBRARY IEEE;
 USE ieee.std_logic_1164.all;
 USE ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 
 entity cpu is
-PORT(clk : in STD_LOGIC;
+  PORT(clk : in STD_LOGIC;
+       clk_250 : in STD_LOGIC;
 	 reset : in STD_LOGIC;
 	 Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
 	 Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
-   OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0));
+   OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
+       btn_in : in STD_LOGIC_VECTOR(1 downto 0));
 end cpu;
 
 architecture a of cpu is
@@ -67,14 +70,16 @@ port (  CLOCK   : in STD_LOGIC ;
 	 );
 end component;
 
--- component microram_sim is
--- port (  CLOCK   : in STD_LOGIC ;
--- 		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
--- 		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
--- 		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
--- 		WE	: in STD_LOGIC 
--- 	 );
--- end component;
+ --component microram_sim is
+ --port (  CLOCK   : in STD_LOGIC ;
+ --		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
+ --		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
+ --		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
+ --		WE	: in STD_LOGIC 
+ --	 );
+ --end component;
+
+
 -- ---------- Declare signals interfacing to RAM ---------------
 signal RAM_DATA_OUT : STD_LOGIC_VECTOR(7 downto 0);  -- DATAOUT output of RAM
 signal ADDR : STD_LOGIC_VECTOR(8 downto 0);	         -- ADDRESS input of RAM
@@ -144,7 +149,16 @@ signal Exc_RegWrite : STD_LOGIC;        -- Latch data bus in A or B
 signal Exc_CCWrite : STD_LOGIC;         -- Latch ALU status bits in CCR
 signal Exc_IOWrite : STD_LOGIC;         -- Latch data bus in I/O
 signal Exc_IODoubleWrite : STD_LOGIC; -- latch both data into seven seg I/O
-	
+signal Exc_DBWrite : STD_LOGIC;
+
+-- flag for debounce state, 00 means it's not running, 01 means it's running,
+--10 means it finished and returned true, 11, means it finished and returned false
+signal debounce_state : STD_LOGIC_VECTOR(1 downto 0) := "00";
+signal debounce_count1, debounce_count0 : STD_LOGIC_VECTOR(3 downto 0) := "0000";
+signal debounce_latch: STD_LOGIC := '0';
+signal debounce_out1, debounce_out0 : STD_LOGIC_VECTOR(7 downto 0);
+signal debounce_start, debounce_stop : STD_LOGIC := '0';
+signal last_Inport1, last_Inport0 : STD_LOGIC := '0';
 begin
 -- ------------ Instantiate the ALU component ---------------
 U1 : alu PORT MAP (ALU_A, ALU_B, ALU_FUNC, ALU_OUT, ALU_N, ALU_V, ALU_Z);
@@ -168,6 +182,47 @@ begin
 	  RAM_WE <= '0';
   end if;
 end process;
+
+-------------------------------------------------------------------
+--debounce process
+------------------------------------------------------------------
+process (clk_250, DATA, IR, Inport0)
+begin
+  if rising_edge(clk_250) then
+    debounce_count1 <= debounce_count1 + 1;
+    debounce_count0 <= debounce_count0 + 1;
+    if last_Inport1 /= Inport0(1) or Inport0(1) = '1' then
+      debounce_count1 <= "0000";
+      last_Inport1 <= Inport0(1);
+      debounce_out1 <= "00000000";
+    end if;
+
+    if last_Inport0 /= Inport0(0) or Inport0(0) = '1' then
+      debounce_count0 <= "0000";
+      last_Inport0 <= Inport0(0);
+      debounce_out0 <= "00000000";
+    end if;
+
+
+    if (debounce_count0 = "1010" and last_Inport0 = Inport0(0) and Inport0(0) = '0') then
+      debounce_out0 <= "00000001";
+      debounce_count0 <= "0000";
+      last_Inport0 <= Inport0(0);
+    end if;
+
+    if (debounce_count1 = "1010" and last_Inport1 = Inport0(1) and Inport0(1) = '0') then
+      debounce_out1 <= "00000001";
+      last_Inport1 <= Inport0(1);
+      debounce_count1 <= "0000";
+    end if;
+    end if;
+
+  end process;
+
+
+          
+
+
 	
 -- ---------------- Generate address bus --------------------------
 with CurrState select
@@ -180,7 +235,7 @@ with CurrState select
 -- --------------------------------------------------------------------
 -- This is the next-state logic for the 4-phase state machine.
 -- --------------------------------------------------------------------
-process (clk,reset)
+process (clk,reset, debounce_latch)
   variable temp : integer;
 begin
   if(reset = '1') then
@@ -249,6 +304,15 @@ begin
                         OutportB <= BCD_conv(std_logic_vector(DATA(7 downto 4)));
                       end if;
 
+                      if(Exc_DBWrite = '1') then
+                          if(IR(0) = '0') then
+                            A <= signed(DATA);
+                          else
+                            B <= signed(DATA);
+                          end if;
+                        end if;
+
+
 
                       
 			when Others => CurrState <= Fetch;
@@ -267,6 +331,7 @@ begin
   Exc_CCWrite <= '0';
   Exc_IOWrite <= '0';
   Exc_IODoubleWrite <= '0';
+  Exc_DBWrite <= '0';
 
 -- Same idea
   ALU_A <= A;
@@ -335,9 +400,14 @@ begin
       end if;
       Exc_IODoubleWrite <= '1';
 
---    when "0110000"|"0110001" =>    --Debounce
---      if(IR(0) = '0') then
+    when "0110000"|"0110001" =>    --Debounce
+      if IR(1) = '0' then
+        DATA <= debounce_out0;
+      else
+        DATA <= debounce_out1;
+      end if;
 
+      Exc_DBWrite <= '1';
 
 
     when "0000010"|"0000011" =>	       -- STOR R,M

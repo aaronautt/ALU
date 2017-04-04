@@ -6,14 +6,16 @@ memory_initialization_radix = 2;
 memory_initialization_vector =
 11110000
 00000000
-00001101
+00001111
 00001000
 01000000
 10100000
 00001000
+01100000
+00001000
 01000000
 00000001
-00001110
+00010000
 10000000
 00001000
 01000000
@@ -25,16 +27,18 @@ memory_initialization_vector =
 
 ; INSTRUCTIONS
 ; 0) CLR A
-; 1) LOAD 10, A
+; 1) LOAD 14, A
 ; 2) 0x0C
 ; 3) OUT A
 ; 4) BCDO A
 ; 5) LSL A
 ; 6) OUT A
-; 7) BCDO A
-; 8) LOAD 11, B
-; 9) 0x0D
-; 10) ADD A
-; 11) OUT A
-;12) 0x01
-;13) 0x05
+; 7) debounce 0, A
+; 8) out A
+; 9) BCDO A
+; 10) LOAD 15, B
+; 11) 0x0D
+; 12) ADD A
+; 13) OUT A
+;14) 0x01
+;15) 0x05

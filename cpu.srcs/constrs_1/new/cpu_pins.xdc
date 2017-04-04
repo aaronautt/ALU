@@ -8,6 +8,15 @@ set_property IOSTANDARD LVCMOS33 [get_ports clk]
 set_property PACKAGE_PIN U18 [get_ports reset]  
 set_property IOSTANDARD LVCMOS33 [get_ports reset]
 
+# BTNR
+set_property PACKAGE_PIN T17 [get_ports btn_in[0]]  
+set_property IOSTANDARD LVCMOS33 [get_ports btn_in[0]]
+
+# BTNL
+set_property PACKAGE_PIN W19 [get_ports btn_in[1]]  
+set_property IOSTANDARD LVCMOS33 [get_ports btn_in[1]]
+
+
 set_property PACKAGE_PIN L1 [get_ports {Outport1[7]}]
 set_property PACKAGE_PIN P1 [get_ports {Outport1[6]}]
 set_property PACKAGE_PIN N3 [get_ports {Outport1[5]}]
