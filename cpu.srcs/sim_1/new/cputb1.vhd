@@ -19,8 +19,8 @@
 ----------------------------------------------------------------------------------
 
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+--library IEEE;
+--use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -41,17 +41,27 @@ end cputb1;
  
 architecture behavior of cputb1 is 
 -- Component Declaration for the Unit Under Test (UUT)
-component ALU_TOP is
-  Port (clk,reset : in STD_LOGIC;
-        an_sel : out STD_LOGIC_VECTOR(3 downto 0);
-        seven : out STD_LOGIC_VECTOR(6 downto 0);
-        Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
-        Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
-        btn_in : in STD_LOGIC_VECTOR(1 downto 0));
-end component;
+--component ALU_TOP is
+--  Port (clk,reset : in STD_LOGIC;
+--        an_sel : out STD_LOGIC_VECTOR(3 downto 0);
+--        seven : out STD_LOGIC_VECTOR(6 downto 0);
+--        Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
+--        Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
+--        btn_in : in STD_LOGIC_VECTOR(1 downto 0));
+--end component;
+
+  component cpu is
+    PORT(clk : in STD_LOGIC;
+         clk_250 : in STD_LOGIC;
+         reset : in STD_LOGIC;
+         Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
+         Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
+         OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
+         btn_in : in STD_LOGIC_VECTOR(1 downto 0));
+  end component;
 
 --Inputs
-signal clk : std_logic := '0';
+signal clk, clk_250 : std_logic := '0';
 signal reset : std_logic := '1';
 signal Inport0 : std_logic_vector(7 downto 0) := (others => '0');
 signal Inport1 : std_logic_vector(7 downto 0) := (others => '0');
@@ -62,15 +72,19 @@ signal Outport0 : std_logic_vector(7 downto 0);
 signal Outport1 : std_logic_vector(7 downto 0);
 signal an_sel : std_logic_vector(3 downto 0);
 signal seven : std_logic_vector(6 downto 0);
---signal OutportA, OutportB : std_logic_vector(6 downto 0);
+signal OutportA, OutportB : std_logic_vector(6 downto 0);
 -- Clock period definitions
-constant clk_period : time := 100ns;
+constant clk_period : time := 10ns;
  
 begin
 -- Instantiate the Unit Under Test (UUT)
-C1 : ALU_TOP PORT MAP (clk => clk, reset => reset, Inport0 => Inport0, Inport1 => Inport1,
-                       Outport0 => Outport0, Outport1 => Outport1, btn_in => btn_in,
-                       an_sel => an_sel, seven => seven);
+--C1 : ALU_TOP PORT MAP (clk => clk, reset => reset, Inport0 => Inport0, Inport1 => Inport1,
+--                       Outport0 => Outport0, Outport1 => Outport1, btn_in => btn_in,
+--                       an_sel => an_sel, seven => seven);
+
+  X1 : cpu port map (clk => clk, reset => reset, Inport1 => Inport1, Inport0 => Inport0,
+                     Outport1 => Outport1, Outport0 => Outport0, OutportB => OutportB,
+                     OutportA => OutportA, btn_in => btn_in, clk_250 => clk_250);
 
 -- Clock process 
 clk_process : process begin

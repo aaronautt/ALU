@@ -52,22 +52,88 @@ architecture a of microram_sim is
 type t_mem_data is array(0 to 511) of std_logic_vector(7 downto 0);
 
 -- Your program is entered here, as initialization values for the "mem_data" signal.
-signal mem_data : t_mem_data := (0 => "11110000", -- CLR A (dummy first instruction)
-                                 1 => "00000000", -- LOAD 13,A  
-                                 2 => X"0D",      -- ADDRESS -> 13
-                                 3 => "00001000", -- OUT A
-                                 4 => "01000000", -- BCDO A
-                                 5 => "10100000", -- LSL A       
-                                 6 => "00001000", -- OUT A
-                                 7 => "01100000", -- debounce 0, A
-                                 8 => "00001000", -- OUT A
-                                 9 => "00000001", -- LOAD 14,B  
-                                 10 => X"0E",      -- ADDRESS -> 14
-                                 11 => "10000000", -- ADD A 
-                                 12 => "00001000", -- OUT A       
-                                 -- test data --
-                                 13 => "00000001", -- memory location 10 set to 1
-                                 14 => "00000101", -- memory location 11 set to 5
+signal mem_data : t_mem_data := (0  =>"11110000",-- clear a
+                                 1  =>"11110001",-- clear b
+                                 2  =>"01101101",-- clear bit 3 location 30
+                                 3  =>"00011110",-- location 30
+                                 4  =>"00001000",-- out a
+                                 5  =>"00000000",-- load a location 31
+                                 6  =>"00011110",-- location 31
+                                 7  =>"00001000",--  Out A
+                                 8  =>"00000000",-- load a location 31
+                                 9  =>"00000000",-- location 31
+                                 10 =>"00000000",--  Out A
+                                 11 =>"00000000",--** location 30
+                                 12 =>"00000000",--** add a
+                                 13 =>"00000000",--** out a
+                                 14 =>"00000000",--** bcd a
+                                 15 =>"00000000",--** clear a
+                                 16 =>"00000000",--** clear b
+                                 17 =>"00000000",--** load a location 31
+                                 18 =>"00000000",--** location 31
+                                 19 =>"00000000",--**  Out A
+                                 20 =>"00000000",--** clear bit 3 location 31
+                                 21 =>"00000000",--** location 31
+                                 22 =>"00000000",--** out a
+                                 23 =>"00000000",--** load a location 31
+                                 24 =>"00000000",--** location 31
+                                 25 =>"00000000",--**  Out A
+                                 26 =>"00000000",--
+                                 27 =>"00000000",--
+                                 28 =>"00000000",--
+                                 29 =>"00000100",-- contents location 29
+                                 30 =>"00001001",-- contents location 30
+                                 31 =>"00001010",-- contents location 31
+
+                                 --0  =>"11110000",--  clear
+                                 --1  =>"00000000",--  load a
+                                 --2  =>"00011101",--  location 29
+                                 --3  =>"00001000",--  Out A
+                                 --4  =>"01000000",--  BCD A
+                                 --5  ="00001000">"10100000",--  lsl r
+                                 --6  =>"00001000",--  Out A
+                                 --7  =>"00100000",--  debounce a
+                                 --8  =>"00001000",--  out a
+                                 --9  =>"01000000",--  bcd a
+                                 --10 =>"00000001",-- load b
+                                 --11 =>"00011110",-- location 30
+                                 --12 =>"10000000",-- add a
+                                 --13 =>"00001000",-- out a
+                                 --14 =>"01000000",-- bcd a
+                                 --15 =>"11110000",-- clear a
+                                 --16 =>"11110001",-- clear b
+                                 --17 =>"00000000",-- load a location 31
+                                 --18 =>"00011111",-- location 31
+                                 --19 =>"00001000",--  Out A
+                                 --20 =>"01101101",-- clear bit 3 location 31
+                                 --21 =>"00011111",-- location 31
+                                 --22 =>"00001000",-- out a
+                                 --23 =>"00000000",-- load a location 31
+                                 --24 =>"00011111",-- location 31
+                                 --25 =>"00001000",--  Out A
+                                 --26 =>"00000000",--
+                                 --27 =>"00000000",--
+                                 --28 =>"00000000",--
+                                 --29 =>"00000100",-- contents location 29
+                                 --30 =>"00001001",-- contents location 30
+                                 --31 =>"00001010",-- contents location 31
+
+--0 => "11110000", -- CLR A (dummy first instruction)
+                                 --1 => "00000000", -- LOAD 13,A  
+                                 --2 => X"0D",      -- ADDRESS -> 13
+                                 --3 => "00001000", -- OUT A
+                                 --4 => "01000000", -- BCDO A
+                                 --5 => "10100000", -- LSL A       
+                                 --6 => "00001000", -- OUT A
+                                 --7 => "01100000", -- debounce 0, A
+                                 --8 => "00001000", -- OUT A
+                                 --9 => "00000001", -- LOAD 14,B  
+                                 --10 => X"0E",      -- ADDRESS -> 14
+                                 --11 => "10000000", -- ADD A 
+                                 --12 => "00001000", -- OUT A       
+                                 ---- test data --
+                                 --13 => "00000001", -- memory location 10 set to 1
+                                 --14 => "00000101", -- memory location 11 set to 5
                                  others => "11110000"); -- all other memory locations set to CLR A instr
 
 begin

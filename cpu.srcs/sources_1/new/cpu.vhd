@@ -21,6 +21,9 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use ieee.std_logic_unsigned.all;
+use ieee.std_logic_arith.all;
+--use ieee.numeric_std.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -30,11 +33,6 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
-
-LIBRARY IEEE;
-USE ieee.std_logic_1164.all;
-USE ieee.std_logic_arith.all;
-use ieee.std_logic_unsigned.all;
 
 entity cpu is
   PORT(clk : in STD_LOGIC;
@@ -86,7 +84,7 @@ signal ADDR : STD_LOGIC_VECTOR(8 downto 0);	         -- ADDRESS input of RAM
 signal RAM_WE : STD_LOGIC;
 
 -- ---------- Declare the state names and state variable -------------
-type STATE_TYPE is (Fetch, Operand, Memory, Execute);
+type STATE_TYPE is (Fetch, Operand, Memory, Memory2, Execute, Execute2);
 signal CurrState : STATE_TYPE;
 -- ---------- Declare the internal CPU registers -------------------
 signal PC : UNSIGNED(8 downto 0);
@@ -109,7 +107,7 @@ variable MSB5 : STD_LOGIC_VECTOR(4 downto 0);
 variable RETVAL : BOOLEAN;
 begin
   MSB5 := DATA(7 downto 3);
-  if(MSB5 = "00000") then
+  if(MSB5 = "00000" or DATA(7 downto 5) = "011") then
 	 RETVAL := true;
   else
 	 RETVAL := false;
@@ -145,12 +143,14 @@ end function;
 -----------------------------------------------------------------------------
 --Function for clear bit that clears a specified bit in a vector
 -----------------------------------------------------------------------------
-function clear_bit(constant input : STD_LOGIC_VECTOR(7 downto 0), constant clr_bit : integer)
+function clear_bit(constant input : STD_LOGIC_VECTOR(7 downto 0); constant clr_bit : integer)
   return STD_LOGIC_VECTOR is
-  variable temp : STD_LOGIC_VECTOR(7 downto 0) := "01111111";
+  --variable temp : bit_vector(7 downto 0) := "01111111";
   variable output : STD_LOGIC_VECTOR(7 downto 0);
 begin
-  output := input and (temp ror clr_bit);
+  output := "00000100";
+  --output(1) := '0';
+  --output(clr_bit) := '0';
   return output;
 end function;
 
@@ -161,18 +161,22 @@ end function;
 signal Exc_RegWrite : STD_LOGIC;        -- Latch data bus in A or B
 signal Exc_CCWrite : STD_LOGIC;         -- Latch ALU status bits in CCR
 signal Exc_IOWrite : STD_LOGIC;         -- Latch data bus in I/O
-signal Exc_IODoubleWrite : STD_LOGIC; -- latch both data into seven seg I/O
+signal Exc_DoubleWrite : STD_LOGIC; -- latch both data into seven seg I/O
 signal Exc_DBWrite : STD_LOGIC;         --debounce flag
 signal Exc_ClrWrite : STD_LOGIC;        -- clear bit flag
+signal twiddle : STD_LOGIC; -- try to make the clear bit function wait an
+                            -- extra cycle
 
 -- flag for debounce state, 00 means it's not running, 01 means it's running,
 --10 means it finished and returned true, 11, means it finished and returned false
 signal debounce_state : STD_LOGIC_VECTOR(1 downto 0) := "00";
 signal debounce_count1, debounce_count0 : STD_LOGIC_VECTOR(3 downto 0) := "0000";
 signal debounce_out1, debounce_out0 : STD_LOGIC_VECTOR(7 downto 0);
---signal debounce_start, debounce_stop : STD_LOGIC := '0';
 signal last_Inport1, last_Inport0 : STD_LOGIC := '0';
 
+----------------------------------------------------------------------
+-- extra 9 bit register to hold last memory location
+signal last_reg : STD_LOGIC_VECTOR(8 downto 0) := "000000000";
 ----------------------------------------------------------------------
 --clear bit signals
 ----------------------------------------------------------------------
@@ -194,7 +198,8 @@ U2 : microram PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, 
 -- hence this is when we need to set RAM_WE high.
 process (CurrState,IR)
 begin
-  if((CurrState = Memory) and (IR(7 downto 2) = "000001")) then
+  if((CurrState = Memory and IR(7 downto 2) = "000001") or
+     (CurrState = Memory2)) then
 	  RAM_WE <= '1';
   else
 	  RAM_WE <= '0';
@@ -206,9 +211,9 @@ end process;
 -- constantly checks to see if inports are changin and updates two
 --registers for debounced output
 ------------------------------------------------------------------
-process (clk_250, DATA, IR, Inport0)
+process (clk, DATA, IR, Inport0)
 begin
-  if rising_edge(clk_250) then
+  if rising_edge(clk) then
     debounce_count1 <= debounce_count1 + 1;
     debounce_count0 <= debounce_count0 + 1;
     if last_Inport1 /= Inport0(1) or Inport0(1) = '1' then
@@ -224,13 +229,13 @@ begin
     end if;
 
 
-    if (debounce_count0 = "1010" and last_Inport0 = Inport0(0) and Inport0(0) = '0') then
+    if (debounce_count0 = "0011" and last_Inport0 = Inport0(0) and Inport0(0) = '0') then
       debounce_out0 <= "00000001";
       debounce_count0 <= "0000";
       last_Inport0 <= Inport0(0);
     end if;
 
-    if (debounce_count1 = "1010" and last_Inport1 = Inport0(1) and Inport0(1) = '0') then
+    if (debounce_count1 = "0011" and last_Inport1 = Inport0(1) and Inport0(1) = '0') then
       debounce_out1 <= "00000001";
       last_Inport1 <= Inport0(1);
       debounce_count1 <= "0000";
@@ -248,14 +253,15 @@ begin
 with CurrState select
 	 ADDR <= STD_LOGIC_VECTOR(PC) when Fetch,
 			 STD_LOGIC_VECTOR(PC) when Operand,  -- really a don't care
-			 IR(1) & MDR when Memory,
+  IR(1) & MDR when Memory,
+  last_reg when Memory2,
 			 STD_LOGIC_VECTOR(PC) when Execute,
 			 STD_LOGIC_VECTOR(PC) when others;   -- just to be safe
 				
 -- --------------------------------------------------------------------
 -- This is the next-state logic for the 4-phase state machine.
 -- --------------------------------------------------------------------
-process (clk,reset, debounce_latch)
+process (clk,reset)
   variable temp : integer;
 begin
   if(reset = '1') then
@@ -287,8 +293,15 @@ begin
       when Operand => MDR <= DATA;
                       CurrState <= Memory;
 
-      when Memory => CurrState <= Execute;
-                     
+      when Memory =>
+        CurrState <= Execute;
+        last_reg <= ADDR;
+
+      when Memory2 => CurrState <= Execute2;
+
+      when Execute2 => CurrState <= Fetch;
+
+
       when Execute => if(temp = 2) then 
 		                    PC <= "000000010";
                       else
@@ -296,6 +309,12 @@ begin
                         temp := temp +1;
                       end if;
                       CurrState <= Fetch;
+                      --if Exc_ClrWrite = '1' then
+                      --  CurrState <= Memory2;
+                      --else
+                      --  CurrState <= Fetch;
+                      --end if;
+
                       
                       if(Exc_RegWrite = '1') then   -- Writing result to A or B
                         if(IR(0) = '0') then
@@ -305,11 +324,12 @@ begin
                         end if;
                       end if;
                       
-                      if(Exc_CCWrite = '1' or Exc_ClrWrite = '1') then    -- Updating flag bits
+                      if(Exc_CCWrite = '1') then    -- Updating flag bits
                         V <= ALU_V;
                         N <= ALU_N;
                         Z <= ALU_Z;
                       end if;
+
 
                       if(Exc_IOWrite = '1') then    -- Write to Outport0 or OutPort1
                         if(IR(1) = '0') then
@@ -319,7 +339,7 @@ begin
                         end if;
                       end if;
 
-                      if(Exc_IODoubleWrite = '1') then -- write to seven seg s
+                      if(Exc_DoubleWrite = '1') then -- write to seven seg s
                         OutportA <= BCD_conv(std_logic_vector(DATA(3 downto 0)));
                         OutportB <= BCD_conv(std_logic_vector(DATA(7 downto 4)));
                       end if;
@@ -330,10 +350,19 @@ begin
                           else
                             B <= signed(DATA);
                           end if;
-                        end if;
+                      end if;
 
+                      if Exc_ClrWrite = '1' then
+                        C <= signed(clear_bit(DATA, conv_integer(unsigned(IR(4 downto 2)))));
+                        CurrState <= Memory2;
+                        N <= ALU_N; -- set flag bits
+                        Z <= ALU_Z;
+                      end if;
 
-
+                      --if twiddle = '1' then
+                      --  null;
+                      --  --wait for a minute
+                      --  end if;
                       
 			when Others => CurrState <= Fetch;
 		end case;
@@ -350,9 +379,10 @@ begin
   Exc_RegWrite <= '0';
   Exc_CCWrite <= '0';
   Exc_IOWrite <= '0';
-  Exc_IODoubleWrite <= '0';
+  Exc_DoubleWrite <= '0';
   Exc_DBWrite <= '0';
   Exc_ClrWrite <= '0';
+  twiddle <= '0';
 
 -- Same idea
   ALU_A <= A;
@@ -366,13 +396,18 @@ begin
                             
     when Memory => if(IR(0) = '0') then
                      DATA <= STD_LOGIC_VECTOR(A);
-                   elsif Exc_ClrWrite = '1' then
-                     DATA <= STD_LOGIC_VECTOR(C);-- writes register C to data
-                                                 -- if clear bit
                    else
                      DATA <= STD_LOGIC_VECTOR(B);
                    end if;
-                   
+
+    when Memory2 => DATA <= STD_LOGIC_VECTOR(C); -- This should write the
+                                                 -- edited value of C to the
+                                                 -- data location
+                    --twiddle <= '1';
+
+    when Execute2 =>
+      null; -- trying to just add some time here.
+
     when Execute => case IR(7 downto 1) is
       when "1000000" 			-- ADD R
                             | "1001000"			-- SUB R
@@ -415,7 +450,7 @@ begin
       DATA <= RAM_DATA_OUT;
       Exc_RegWrite <= '1';
 
-    when "0000010" => ---Clear bit
+    when "0110010"|"0110100"|"0110110"|"0111000"|"0111010"|"0111100"|"0111110"|"0110000"|"0110011"|"0110101"|"0110111"|"0111001"|"0111011"|"0111101"|"0111111"|"0110001" => ---Clear bit, in 1111xxxp1
       Exc_ClrWrite <= '1';
       DATA <= RAM_DATA_OUT;
 
@@ -426,9 +461,9 @@ begin
       else
         DATA <= STD_LOGIC_VECTOR(B);
       end if;
-      Exc_IODoubleWrite <= '1';
+      Exc_DoubleWrite <= '1';
 
-    when "0110000"|"0110001" =>    --Debounce
+    when "0010000"|"0010001" =>    --Debounce
       if IR(1) = '0' then
         DATA <= debounce_out0;
       else

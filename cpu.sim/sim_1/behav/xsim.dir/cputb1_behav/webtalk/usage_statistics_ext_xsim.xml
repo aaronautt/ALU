@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<webTalkData  fileName='usage_statistics_ext_xsim.xml'  majorVersion='1' minorVersion='0' timeStamp='Mon Apr  3 19:32:37 2017'>
+<webTalkData  fileName='usage_statistics_ext_xsim.xml'  majorVersion='1' minorVersion='0' timeStamp='Sat Apr  8 18:50:56 2017'>
 <section name="__ROOT__" level="0" order="1" description="">
  <section name="software_version_and_target_device" level="1" order="1" description="">
   <keyValuePair key="beta" value="FALSE" description="" />
   <keyValuePair key="build_version" value="1682563" description="" />
-  <keyValuePair key="date_generated" value="Mon Apr  3 19:32:36 2017" description="" />
+  <keyValuePair key="date_generated" value="Sat Apr  8 18:50:56 2017" description="" />
   <keyValuePair key="os_platform" value="LIN64" description="" />
   <keyValuePair key="product_version" value="XSIM v2016.3 (64-bit)" description="" />
   <keyValuePair key="project_id" value="dfad7b2dc76c43a29158bebdcbde4fa8" description="" />
@@ -20,7 +20,7 @@
  </section>
  <section name="user_environment" level="1" order="2" description="">
   <keyValuePair key="cpu_name" value="Intel(R) Core(TM) i5 CPU       M 520  @ 2.40GHz" description="" />
-  <keyValuePair key="cpu_speed" value="1199.000 MHz" description="" />
+  <keyValuePair key="cpu_speed" value="2400.000 MHz" description="" />
   <keyValuePair key="os_name" value="Ubuntu" description="" />
   <keyValuePair key="os_release" value="Ubuntu 16.10" description="" />
   <keyValuePair key="system_ram" value="6.000 GB" description="" />
@@ -34,9 +34,9 @@
   </section>
   <section name="usage" level="2" order="2" description="">
    <keyValuePair key="iteration" value="2" description="" />
-   <keyValuePair key="runtime" value="101001 us" description="" />
+   <keyValuePair key="runtime" value="1 us" description="" />
    <keyValuePair key="simulation_memory" value="139552_KB" description="" />
-   <keyValuePair key="simulation_time" value="5.14_sec" description="" />
+   <keyValuePair key="simulation_time" value="0.02_sec" description="" />
    <keyValuePair key="trace_waveform" value="true" description="" />
   </section>
  </section>

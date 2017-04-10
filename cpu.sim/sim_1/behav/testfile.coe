@@ -5,36 +5,56 @@
 memory_initialization_radix = 2;
 memory_initialization_vector =
 11110000
+11110001
 00000000
-00001101
+00010000
 00001000
-01000000
-10100000
+01101101
+00010000
 00001000
-01000000
-00000001
-00001110
-10000000
-00001000
-01000000
+00000000
+00010000
+00000000
+00000000
+00000000
+00000000
 00000100
 00001001
+00001010
 ;
 
 
 
 ; INSTRUCTIONS
-; 0) CLR A
-; 1) LOAD 10, A
-; 2) 0x0C
-; 3) OUT A
-; 4) BCDO A
-; 5) LSL A
-; 6) OUT A
-; 7) BCDO A
-; 8) LOAD 11, B
-; 9) 0x0D
-; 10) ADD A
-; 11) OUT A
-;12) 0x01
-;13) 0x05
+; 0  11110000  clear
+; 1  00000000  load a
+; 2  00011101  location 29
+; 3  00001000  Out A
+; 4  01000000  BCD A
+; 5  10100000  lsl r
+; 6  00001000  Out A
+; 7  00100000  debounce a
+; 8  00001000  out a
+; 9  01000000  bcd a
+; 10 00000001 load b
+; 11 00011110 location 30
+; 12 10000000 add a
+; 13 00001000 out a
+; 14 01000000 bcd a
+; 15 11110000 clear a
+; 16 11110001 clear b
+; 17 00000000 load a location 31
+; 18 00011111 location 31
+; 19 00001000  Out A
+; 20 01101101 clear bit 3 location 31
+; 21 00011111 location 31
+; 22 00001000 out a
+; 23 00000000 load a location 31
+; 24 00011111 location 31
+; 25 00001000  Out A
+; 26 00000000
+; 27 00000000
+; 28 00000000
+; 29 00000100 contents location 29
+; 30 00001001 contents location 30
+; 31 00001010 contents location 31
