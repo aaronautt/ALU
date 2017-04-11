@@ -50,9 +50,12 @@ architecture Behavioral of ALU_TOP is
          Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
          Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
          OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
-         btn_in : in STD_LOGIC_VECTOR(1 downto 0));
+         btn_in : in STD_LOGIC_VECTOR(1 downto 0);
+         PWM_DC : out STD_LOGIC_VECTOR(3 downto 0));
   end component;
 
+
+  
   component mux is
     port(an_sel : out std_logic_vector (3 downto 0); --anode selection
          seven : out std_logic_vector (6 downto 0); -- seven segment display selection
@@ -70,22 +73,51 @@ architecture Behavioral of ALU_TOP is
   end component;
 
 
+  ---------------PWM component ----------------------------------
+  -- component PWM is
+  --   Port (clk : in std_logic;
+  --         DC : in std_logic_vector(3 downto 0); -- a number between 0 and 10
+  --         LED_sig : out std_logic);
+  -- end component;
+
+
 signal portA, portB : std_logic_vector(6 downto 0);
 signal clk250, clk100, clk1k, clk1hz : std_logic;
+  signal pwm_dc : std_logic_vector(3 downto 0);
+  signal PC : UNSIGNED(8 downto 0);
+  signal IR : STD_LOGIC_VECTOR(7 downto 0);
+  signal MDR : STD_LOGIC_VECTOR(7 downto 0);
+
+  signal A,B,C : SIGNED(7 downto 0);
+  signal N,Z,V : STD_LOGIC;
+-- ---------- Declare the common data bus ------------------
+  signal DATA : STD_LOGIC_VECTOR(7 downto 0);
 
 begin
 ---
-  -- uncomment this to run it on a board
+  -- uncomment this to run it on a simulation
   C1 : cpu port map (clk => clk1hz, reset => reset, Inport1 => Inport1, Inport0 => Inport0, 
                      OutportB => portB, OutportA => portA, Outport1 => Outport1,
-                     Outport0 => Outport0, clk_250 => clk250, btn_in => btn_in);
+                     Outport0 => Outport0, clk_250 => clk250, btn_in => btn_in,
+                     PWM_DC => pwm_dc, PCt => PC,
+                     IRt => IR,
+                     MDRt => MDR,
+                     At => A,
+                     Bt => B,
+                     Ct => C,
+                     Nt => N,
+                     Zt => Z,
+                     Vt => V,
+                     DATAt => DATA);
 
+--uncomment this for the board
+  C1 : cpu port map (clk => clk1hz, reset => reset, Inport1 => Inport1, Inport0 => Inport0, 
+                     OutportB => portB, OutportA => portA, Outport1 => Outport1,
+                     Outport0 => Outport0, clk_250 => clk250, btn_in => btn_in,
+                     PWM_DC => pwm_dc);
+  
 
-  --uncomment this to simulate it
-  --C1 : cpu port map (clk => clk, reset => reset, Inport1 => Inport1, Inport0 => Inport0, 
-  --                   OutportB => portB, OutportA => portA, Outport1 => Outport1,
-  --                   Outport0 => Outport0, clk_250 => clk250, btn_in => btn_in);
-
+--  P1 : PWM port map(clk => clk1k, DC => pwm_dc, )
 
   M1 : mux port map (clk => clk250, an_sel => an_sel, seven => seven,
                      InportA => portA, InportB => portB);

@@ -31,25 +31,16 @@
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
-USE ieee.std_logic_unsigned.all;
-USE ieee.numeric_std.ALL;
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use ieee.std_logic_unsigned.all;
+use ieee.std_logic_arith.all;
  
 entity cputb1 is
 end cputb1;
  
 architecture behavior of cputb1 is 
 -- Component Declaration for the Unit Under Test (UUT)
---component ALU_TOP is
---  Port (clk,reset : in STD_LOGIC;
---        an_sel : out STD_LOGIC_VECTOR(3 downto 0);
---        seven : out STD_LOGIC_VECTOR(6 downto 0);
---        Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
---        Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
---        btn_in : in STD_LOGIC_VECTOR(1 downto 0));
---end component;
-
   component cpu is
     PORT(clk : in STD_LOGIC;
          clk_250 : in STD_LOGIC;
@@ -57,8 +48,15 @@ architecture behavior of cputb1 is
          Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
          Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
          OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
-         btn_in : in STD_LOGIC_VECTOR(1 downto 0));
+         btn_in : in STD_LOGIC_VECTOR(1 downto 0);
+         PCt : out UNSIGNED(8 downto 0);
+         IRt : out STD_LOGIC_VECTOR(7 downto 0);
+         MDRt : out STD_LOGIC_VECTOR(7 downto 0);
+         At,Bt,Ct : out SIGNED(7 downto 0);
+         Nt,Zt,Vt : out STD_LOGIC;
+         DATAt : out STD_LOGIC_VECTOR(7 downto 0));
   end component;
+  
 
 --Inputs
 signal clk, clk_250 : std_logic := '0';
@@ -72,7 +70,17 @@ signal Outport0 : std_logic_vector(7 downto 0);
 signal Outport1 : std_logic_vector(7 downto 0);
 signal an_sel : std_logic_vector(3 downto 0);
 signal seven : std_logic_vector(6 downto 0);
-signal OutportA, OutportB : std_logic_vector(6 downto 0);
+  signal OutportA, OutportB : std_logic_vector(6 downto 0);
+
+  signal PC : UNSIGNED(8 downto 0);
+  signal IR : STD_LOGIC_VECTOR(7 downto 0);
+  signal MDR : STD_LOGIC_VECTOR(7 downto 0);
+
+  signal A,B,C : SIGNED(7 downto 0);
+  signal N,Z,V : STD_LOGIC;
+
+  
+  signal DATA : STD_LOGIC_VECTOR(7 downto 0);
 -- Clock period definitions
 constant clk_period : time := 10ns;
  
@@ -82,10 +90,19 @@ begin
 --                       Outport0 => Outport0, Outport1 => Outport1, btn_in => btn_in,
 --                       an_sel => an_sel, seven => seven);
 
-  X1 : cpu port map (clk => clk, reset => reset, Inport1 => Inport1, Inport0 => Inport0,
-                     Outport1 => Outport1, Outport0 => Outport0, OutportB => OutportB,
-                     OutportA => OutportA, btn_in => btn_in, clk_250 => clk_250);
-
+  C1 : cpu port map (clk => clk, reset => reset, Inport1 => Inport1, Inport0 => Inport0, 
+                     OutportB => OutportB, OutportA => OutportA, Outport1 => Outport1,
+                     Outport0 => Outport0, clk_250 => clk_250, btn_in => btn_in,
+                     PCt => PC,
+                     IRt => IR,
+                     MDRt => MDR,
+                     At => A,
+                     Bt => B,
+                     Ct => C,
+                     Nt => N,
+                     Zt => Z,
+                     Vt => V,
+                     DATAt => DATA);
 -- Clock process 
 clk_process : process begin
               clk <= '0'; wait for clk_period/2;

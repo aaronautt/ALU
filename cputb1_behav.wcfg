@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="cputb1_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="cputb1" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="304800000fs"></ZoomStartTime>
+      <ZoomEndTime time="389900001fs"></ZoomEndTime>
+      <Cursor1Time time="254700000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="137"></NameColumnWidth>
+      <ValueColumnWidth column_width="186"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="23" />
+   <wvobject type="logic" fp_name="/cputb1/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cputb1/clk_250">
+      <obj_property name="ElementShortName">clk_250</obj_property>
+      <obj_property name="ObjectShortName">clk_250</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cputb1/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/Inport0">
+      <obj_property name="ElementShortName">Inport0[7:0]</obj_property>
+      <obj_property name="ObjectShortName">Inport0[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/Inport1">
+      <obj_property name="ElementShortName">Inport1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">Inport1[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/btn_in">
+      <obj_property name="ElementShortName">btn_in[1:0]</obj_property>
+      <obj_property name="ObjectShortName">btn_in[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/Outport0">
+      <obj_property name="ElementShortName">Outport0[7:0]</obj_property>
+      <obj_property name="ObjectShortName">Outport0[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/Outport1">
+      <obj_property name="ElementShortName">Outport1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">Outport1[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/an_sel">
+      <obj_property name="ElementShortName">an_sel[3:0]</obj_property>
+      <obj_property name="ObjectShortName">an_sel[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/seven">
+      <obj_property name="ElementShortName">seven[6:0]</obj_property>
+      <obj_property name="ObjectShortName">seven[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/OutportA">
+      <obj_property name="ElementShortName">OutportA[6:0]</obj_property>
+      <obj_property name="ObjectShortName">OutportA[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/OutportB">
+      <obj_property name="ElementShortName">OutportB[6:0]</obj_property>
+      <obj_property name="ObjectShortName">OutportB[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/PC">
+      <obj_property name="ElementShortName">PC[8:0]</obj_property>
+      <obj_property name="ObjectShortName">PC[8:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/IR">
+      <obj_property name="ElementShortName">IR[7:0]</obj_property>
+      <obj_property name="ObjectShortName">IR[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/MDR">
+      <obj_property name="ElementShortName">MDR[7:0]</obj_property>
+      <obj_property name="ObjectShortName">MDR[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/A">
+      <obj_property name="ElementShortName">A[7:0]</obj_property>
+      <obj_property name="ObjectShortName">A[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/B">
+      <obj_property name="ElementShortName">B[7:0]</obj_property>
+      <obj_property name="ObjectShortName">B[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/C">
+      <obj_property name="ElementShortName">C[7:0]</obj_property>
+      <obj_property name="ObjectShortName">C[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cputb1/N">
+      <obj_property name="ElementShortName">N</obj_property>
+      <obj_property name="ObjectShortName">N</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cputb1/Z">
+      <obj_property name="ElementShortName">Z</obj_property>
+      <obj_property name="ObjectShortName">Z</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cputb1/V">
+      <obj_property name="ElementShortName">V</obj_property>
+      <obj_property name="ObjectShortName">V</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cputb1/DATA">
+      <obj_property name="ElementShortName">DATA[7:0]</obj_property>
+      <obj_property name="ObjectShortName">DATA[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cputb1/clk_period">
+      <obj_property name="ElementShortName">clk_period</obj_property>
+      <obj_property name="ObjectShortName">clk_period</obj_property>
+   </wvobject>
+</wave_config>

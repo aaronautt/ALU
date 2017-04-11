@@ -34,15 +34,32 @@ use ieee.std_logic_arith.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
+-- entity cpu is
+--   PORT(clk : in STD_LOGIC;
+--        clk_250 : in STD_LOGIC;
+-- 	 reset : in STD_LOGIC;
+-- 	 Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
+-- 	 Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
+--    OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
+--        btn_in : in STD_LOGIC_VECTOR(1 downto 0));
+-- end cpu;
+
 entity cpu is
   PORT(clk : in STD_LOGIC;
        clk_250 : in STD_LOGIC;
-	 reset : in STD_LOGIC;
-	 Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
-	 Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
-   OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
-       btn_in : in STD_LOGIC_VECTOR(1 downto 0));
+       reset : in STD_LOGIC;
+       Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
+       Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
+       OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
+       btn_in : in STD_LOGIC_VECTOR(1 downto 0);
+       PCt : out UNSIGNED(8 downto 0);
+       IRt : out STD_LOGIC_VECTOR(7 downto 0);
+       MDRt : out STD_LOGIC_VECTOR(7 downto 0);
+       At,Bt,Ct : out SIGNED(7 downto 0);
+       Nt,Zt,Vt : out STD_LOGIC;
+       DATAt : out STD_LOGIC_VECTOR(7 downto 0));
 end cpu;
+
 
 architecture a of cpu is
 -- ----------- Declare the ALU component ----------
@@ -59,29 +76,32 @@ signal ALU_OUT : SIGNED(7 downto 0);
 signal ALU_N, ALU_V, ALU_Z : STD_LOGIC;
 
 -- ------------ Declare the 512x8 RAM component --------------
-component microram is
-port (  CLOCK   : in STD_LOGIC ;
-		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
-		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
-		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
-		WE	: in STD_LOGIC 
-	 );
+-- component microram is
+-- port (  CLOCK   : in STD_LOGIC ;
+-- 		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
+-- 		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
+-- 		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
+-- 		WE	: in STD_LOGIC 
+-- 	 );
+-- end component;
+
+ component microram_sim is
+ port (  CLOCK   : in STD_LOGIC ;
+ 		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
+ 		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
+ 		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
+ 		WE	: in STD_LOGIC 
+ 	 );
 end component;
 
- --component microram_sim is
- --port (  CLOCK   : in STD_LOGIC ;
- --		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
- --		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
- --		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
- --		WE	: in STD_LOGIC 
- --	 );
- --end component;
 
 
 -- ---------- Declare signals interfacing to RAM ---------------
 signal RAM_DATA_OUT : STD_LOGIC_VECTOR(7 downto 0);  -- DATAOUT output of RAM
 signal ADDR : STD_LOGIC_VECTOR(8 downto 0);	         -- ADDRESS input of RAM
 signal RAM_WE : STD_LOGIC;
+
+
 
 -- ---------- Declare the state names and state variable -------------
 type STATE_TYPE is (Fetch, Operand, Memory, Memory2, Execute, Execute2);
@@ -103,11 +123,13 @@ signal DATA_QU : STD_LOGIC_VECTOR(7 downto 0);
 -- 4-phase instruction rather than a 2-phase instruction
 -- -----------------------------------------------------	
 function Is4Phase(constant DATA : STD_LOGIC_VECTOR(7 downto 0)) return BOOLEAN is
-variable MSB5 : STD_LOGIC_VECTOR(4 downto 0);
+  variable MSB5 : STD_LOGIC_VECTOR(4 downto 0);
+  variable MSB3 : STD_LOGIC_VECTOR(2 downto 0);
 variable RETVAL : BOOLEAN;
 begin
+  MSB3 := DATA(7 downto 5);
   MSB5 := DATA(7 downto 3);
-  if(MSB5 = "00000" or DATA(7 downto 5) = "011") then
+  if(MSB5 = "00000" or MSB3 = "011") then
 	 RETVAL := true;
   else
 	 RETVAL := false;
@@ -148,9 +170,10 @@ function clear_bit(constant input : STD_LOGIC_VECTOR(7 downto 0); constant clr_b
   --variable temp : bit_vector(7 downto 0) := "01111111";
   variable output : STD_LOGIC_VECTOR(7 downto 0);
 begin
-  output := "00000100";
+  --output := "11111111";
   --output(1) := '0';
-  --output(clr_bit) := '0';
+  output := input;
+  output(clr_bit) := '0';
   return output;
 end function;
 
@@ -182,6 +205,18 @@ signal last_reg : STD_LOGIC_VECTOR(8 downto 0) := "000000000";
 ----------------------------------------------------------------------
 signal clr_bit_reg : STD_LOGIC_VECTOR(7 downto 0);
 begin
+
+PCt <= PC;
+IRt <= IR;
+MDRt <= MDR;
+At <= A;
+Bt <= B;
+Ct <= C;
+Nt <= N;
+Zt <= Z;
+Vt <= V;
+DATAt <= DATA;
+
 -- ------------ Instantiate the ALU component ---------------
 U1 : alu PORT MAP (ALU_A, ALU_B, ALU_FUNC, ALU_OUT, ALU_N, ALU_V, ALU_Z);
 			
@@ -189,9 +224,9 @@ U1 : alu PORT MAP (ALU_A, ALU_B, ALU_FUNC, ALU_OUT, ALU_N, ALU_V, ALU_Z);
 ALU_FUNC <= IR(6 downto 4);
 	
 -- ------------ Instantiate the RAM component -------------
-U2 : microram PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
+--U2 : microram PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
 
---U2 : microram_sim PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
+U2 : microram_sim PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
 
 -- ---------------- Generate RAM write enable ---------------------
 -- The address and data are presented to the RAM during the Memory phase, 
@@ -284,8 +319,12 @@ begin
 		  when Fetch => IR <= DATA;
                     if(Is4Phase(DATA)) then
                       PC <= PC + 1;
-                      temp := temp + 1;
+                      --temp := temp + 1;
                       CurrState <= Operand;
+                    --elsif (DATA(7 downto 5) = "011") then
+                    --  PC <= PC + 1;
+                    --  temp := temp + 1;
+                    --  CurrState <= Operand;
                     else
                       CurrState <= Execute;
                     end if;
@@ -299,15 +338,17 @@ begin
 
       when Memory2 => CurrState <= Execute2;
 
-      when Execute2 => CurrState <= Fetch;
+      when Execute2 =>
+        PC <= PC + 1;
+        CurrState <= Fetch;
 
 
-      when Execute => if(temp = 2) then 
-		                    PC <= "000000010";
-                      else
-                        PC <= PC + 1;
-                        temp := temp +1;
-                      end if;
+      when Execute => --if(temp = 2) then 
+		                    PC <= PC + 1;
+                      --else
+                        --PC <= PC + 1;
+                        --temp := temp +1;
+                      --end if;
                       CurrState <= Fetch;
                       --if Exc_ClrWrite = '1' then
                       --  CurrState <= Memory2;
