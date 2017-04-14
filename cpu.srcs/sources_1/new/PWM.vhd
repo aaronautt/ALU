@@ -34,14 +34,15 @@ use ieee.std_logic_arith.all;
 
 entity PWM is
   Port (clk : in std_logic;
-        DC : in std_logic_vector(3 downto 0); -- a number between 0 and 10
+        DC : in std_logic_vector(7 downto 0); -- a number between 0 and 10
         LED_sig : out std_logic);
 end PWM;
 
 architecture Behavioral of PWM is
 
-  signal pwm_count : std_logic_vector(3 downto 0) := "0000";
-
+  --01100100 "100" in binary
+  signal pwm_count : std_logic_vector(7 downto 0) := "00000000";
+  signal duty_cycle : std_logic_vector(7 downto 0) := "00000000"; 
 begin
 
  pwm_pr0c : process(clk)
@@ -49,13 +50,21 @@ begin
    if rising_edge(clk) then
      pwm_count <= pwm_count + 1;
 
-     if pwm_count = "1011" then
-       pwm_count <= "0000";
+     if DC > "01100100" then
+       duty_cycle <= "00000000";
+     else
+       duty_cycle <= DC;
      end if;
 
-     if pwm_count = "0000" then
+     if pwm_count = "01100101" then --at 101 pwm count resets
+       pwm_count <= "00000000";
+     end if;
+
+     if pwm_count = "00000000" and duty_cycle > "00000000" then
        LED_sig <= '1';
-     elsif pwm_count = DC then
+     elsif pwm_count = duty_cycle then
+       LED_sig <= '0';
+     else
        LED_sig <= '0';
      end if;
      end if;

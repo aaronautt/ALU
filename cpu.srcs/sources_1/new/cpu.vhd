@@ -34,31 +34,31 @@ use ieee.std_logic_arith.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
--- entity cpu is
---   PORT(clk : in STD_LOGIC;
---        clk_250 : in STD_LOGIC;
--- 	 reset : in STD_LOGIC;
--- 	 Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
--- 	 Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
---    OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
---        btn_in : in STD_LOGIC_VECTOR(1 downto 0));
--- end cpu;
-
 entity cpu is
   PORT(clk : in STD_LOGIC;
-       clk_250 : in STD_LOGIC;
+       clk_250, clk100k : in STD_LOGIC;
        reset : in STD_LOGIC;
        Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
        Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
        OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
-       btn_in : in STD_LOGIC_VECTOR(1 downto 0);
-       PCt : out UNSIGNED(8 downto 0);
-       IRt : out STD_LOGIC_VECTOR(7 downto 0);
-       MDRt : out STD_LOGIC_VECTOR(7 downto 0);
-       At,Bt,Ct : out SIGNED(7 downto 0);
-       Nt,Zt,Vt : out STD_LOGIC;
-       DATAt : out STD_LOGIC_VECTOR(7 downto 0));
+       btn_in : in STD_LOGIC_VECTOR(1 downto 0));
 end cpu;
+
+-- entity cpu is
+--   PORT(clk : in STD_LOGIC;
+--        clk_250 : in STD_LOGIC;
+--        reset : in STD_LOGIC;
+--        Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
+--        Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
+--        OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
+--        btn_in : in STD_LOGIC_VECTOR(1 downto 0);
+--        PCt : out UNSIGNED(8 downto 0);
+--        IRt : out STD_LOGIC_VECTOR(7 downto 0);
+--        MDRt : out STD_LOGIC_VECTOR(7 downto 0);
+--        At,Bt,Ct : out SIGNED(7 downto 0);
+--        Nt,Zt,Vt : out STD_LOGIC;
+--        DATAt : out STD_LOGIC_VECTOR(7 downto 0));
+-- end cpu;
 
 
 architecture a of cpu is
@@ -76,24 +76,30 @@ signal ALU_OUT : SIGNED(7 downto 0);
 signal ALU_N, ALU_V, ALU_Z : STD_LOGIC;
 
 -- ------------ Declare the 512x8 RAM component --------------
--- component microram is
--- port (  CLOCK   : in STD_LOGIC ;
--- 		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
--- 		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
--- 		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
--- 		WE	: in STD_LOGIC 
--- 	 );
--- end component;
-
- component microram_sim is
- port (  CLOCK   : in STD_LOGIC ;
- 		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
- 		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
- 		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
- 		WE	: in STD_LOGIC 
- 	 );
+component microram is
+port (  CLOCK   : in STD_LOGIC ;
+		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
+		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
+		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
+		WE	: in STD_LOGIC 
+	 );
 end component;
 
+--  component microram_sim is
+--  port (  CLOCK   : in STD_LOGIC ;
+--  		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
+--  		DATAOUT : out STD_LOGIC_VECTOR (7 downto 0);
+--  		DATAIN  : in STD_LOGIC_VECTOR (7 downto 0);
+--  		WE	: in STD_LOGIC 
+--  	 );
+-- end component;
+
+---------------PWM component ----------------------------------
+component PWM is
+  Port (clk : in std_logic;
+        DC : in std_logic_vector(7 downto 0); -- a number between 0 and 100
+        LED_sig : out std_logic);
+end component;
 
 
 -- ---------- Declare signals interfacing to RAM ---------------
@@ -167,11 +173,8 @@ end function;
 -----------------------------------------------------------------------------
 function clear_bit(constant input : STD_LOGIC_VECTOR(7 downto 0); constant clr_bit : integer)
   return STD_LOGIC_VECTOR is
-  --variable temp : bit_vector(7 downto 0) := "01111111";
   variable output : STD_LOGIC_VECTOR(7 downto 0);
 begin
-  --output := "11111111";
-  --output(1) := '0';
   output := input;
   output(clr_bit) := '0';
   return output;
@@ -187,9 +190,7 @@ signal Exc_IOWrite : STD_LOGIC;         -- Latch data bus in I/O
 signal Exc_DoubleWrite : STD_LOGIC; -- latch both data into seven seg I/O
 signal Exc_DBWrite : STD_LOGIC;         --debounce flag
 signal Exc_ClrWrite : STD_LOGIC;        -- clear bit flag
-signal twiddle : STD_LOGIC; -- try to make the clear bit function wait an
-                            -- extra cycle
-
+signal Exc_PWMWrite : STD_LOGIC;        --pwm write flag
 -- flag for debounce state, 00 means it's not running, 01 means it's running,
 --10 means it finished and returned true, 11, means it finished and returned false
 signal debounce_state : STD_LOGIC_VECTOR(1 downto 0) := "00";
@@ -204,18 +205,21 @@ signal last_reg : STD_LOGIC_VECTOR(8 downto 0) := "000000000";
 --clear bit signals
 ----------------------------------------------------------------------
 signal clr_bit_reg : STD_LOGIC_VECTOR(7 downto 0);
+
+----------PWM signals
+signal pwm_dc : STD_LOGIC_VECTOR(7 downto 0);
 begin
 
-PCt <= PC;
-IRt <= IR;
-MDRt <= MDR;
-At <= A;
-Bt <= B;
-Ct <= C;
-Nt <= N;
-Zt <= Z;
-Vt <= V;
-DATAt <= DATA;
+--PCt <= PC;
+--IRt <= IR;
+--MDRt <= MDR;
+--At <= A;
+--Bt <= B;
+--Ct <= C;
+--Nt <= N;
+--Zt <= Z;
+--Vt <= V;
+--DATAt <= DATA;
 
 -- ------------ Instantiate the ALU component ---------------
 U1 : alu PORT MAP (ALU_A, ALU_B, ALU_FUNC, ALU_OUT, ALU_N, ALU_V, ALU_Z);
@@ -224,9 +228,14 @@ U1 : alu PORT MAP (ALU_A, ALU_B, ALU_FUNC, ALU_OUT, ALU_N, ALU_V, ALU_Z);
 ALU_FUNC <= IR(6 downto 4);
 	
 -- ------------ Instantiate the RAM component -------------
---U2 : microram PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
+U2 : microram PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
 
-U2 : microram_sim PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
+--U2 : microram_sim PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
+
+-----------------Instantiate PWM controller
+P1 : PWM port map(clk => clk100k, DC => pwm_dc, LED_sig => Outport1(7));
+
+
 
 -- ---------------- Generate RAM write enable ---------------------
 -- The address and data are presented to the RAM during the Memory phase, 
@@ -376,7 +385,9 @@ begin
                         if(IR(1) = '0') then
                           Outport0 <= DATA;
                         else
-                          Outport1 <= DATA;
+                          --The top bit of outport1 is ignored, so that the PWM
+                          --can have control of this LED
+                          Outport1(6 downto 0) <= DATA(6 downto 0);
                         end if;
                       end if;
 
@@ -400,10 +411,9 @@ begin
                         Z <= ALU_Z;
                       end if;
 
-                      --if twiddle = '1' then
-                      --  null;
-                      --  --wait for a minute
-                      --  end if;
+                        if Exc_PWMWrite = '1' then
+                          pwm_dc <= DATA;
+                        end if;
                       
 			when Others => CurrState <= Fetch;
 		end case;
@@ -423,7 +433,7 @@ begin
   Exc_DoubleWrite <= '0';
   Exc_DBWrite <= '0';
   Exc_ClrWrite <= '0';
-  twiddle <= '0';
+  Exc_PWMWrite <= '0';
 
 -- Same idea
   ALU_A <= A;
@@ -444,7 +454,6 @@ begin
     when Memory2 => DATA <= STD_LOGIC_VECTOR(C); -- This should write the
                                                  -- edited value of C to the
                                                  -- data location
-                    --twiddle <= '1';
 
     when Execute2 =>
       null; -- trying to just add some time here.
@@ -491,7 +500,15 @@ begin
       DATA <= RAM_DATA_OUT;
       Exc_RegWrite <= '1';
 
-    when "0110010"|"0110100"|"0110110"|"0111000"|"0111010"|"0111100"|"0111110"|"0110000"|"0110011"|"0110101"|"0110111"|"0111001"|"0111011"|"0111101"|"0111111"|"0110001" => ---Clear bit, in 1111xxxp1
+    when "0011000" => --PWM duty cycle PWMD R #0011000R
+      if(IR(0) = '0') then
+        DATA <= STD_LOGIC_VECTOR(A);
+      else
+        DATA <= STD_LOGIC_VECTOR(B);
+      end if;
+      Exc_PWMWrite <= '1';
+
+    when "0110010"|"0110100"|"0110110"|"0111000"|"0111010"|"0111100"|"0111110"|"0110000"|"0110011"|"0110101"|"0110111"|"0111001"|"0111011"|"0111101"|"0111111"|"0110001" => ---Clear bit, in #011xxxp1
       Exc_ClrWrite <= '1';
       DATA <= RAM_DATA_OUT;
 

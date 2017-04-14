@@ -21,6 +21,7 @@ add_files /home/aaron/school/EGR426/cpu/testfile.coe
 add_files -quiet /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/ip/cpuram/cpuram.dcp
 set_property used_in_implementation false [get_files /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/ip/cpuram/cpuram.dcp]
 read_vhdl -library xil_defaultlib {
+  /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/PWM.vhd
   /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/microram.vhd
   /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu.vhd
   /home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd

@@ -45,13 +45,12 @@ architecture Behavioral of ALU_TOP is
 
   component cpu is
     PORT(clk : in STD_LOGIC;
-         clk_250 :in STD_LOGIC;
+         clk_250, clk100k :in STD_LOGIC;
          reset : in STD_LOGIC;
          Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
          Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
          OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
-         btn_in : in STD_LOGIC_VECTOR(1 downto 0);
-         PWM_DC : out STD_LOGIC_VECTOR(3 downto 0));
+         btn_in : in STD_LOGIC_VECTOR(1 downto 0));
   end component;
 
 
@@ -73,17 +72,9 @@ architecture Behavioral of ALU_TOP is
   end component;
 
 
-  ---------------PWM component ----------------------------------
-  -- component PWM is
-  --   Port (clk : in std_logic;
-  --         DC : in std_logic_vector(3 downto 0); -- a number between 0 and 10
-  --         LED_sig : out std_logic);
-  -- end component;
-
 
 signal portA, portB : std_logic_vector(6 downto 0);
-signal clk250, clk100, clk1k, clk1hz : std_logic;
-  signal pwm_dc : std_logic_vector(3 downto 0);
+signal clk250, clk100, clk100k, clk1hz : std_logic;
   signal PC : UNSIGNED(8 downto 0);
   signal IR : STD_LOGIC_VECTOR(7 downto 0);
   signal MDR : STD_LOGIC_VECTOR(7 downto 0);
@@ -96,33 +87,31 @@ signal clk250, clk100, clk1k, clk1hz : std_logic;
 begin
 ---
   -- uncomment this to run it on a simulation
-  C1 : cpu port map (clk => clk1hz, reset => reset, Inport1 => Inport1, Inport0 => Inport0, 
-                     OutportB => portB, OutportA => portA, Outport1 => Outport1,
-                     Outport0 => Outport0, clk_250 => clk250, btn_in => btn_in,
-                     PWM_DC => pwm_dc, PCt => PC,
-                     IRt => IR,
-                     MDRt => MDR,
-                     At => A,
-                     Bt => B,
-                     Ct => C,
-                     Nt => N,
-                     Zt => Z,
-                     Vt => V,
-                     DATAt => DATA);
+--  C1 : cpu port map (clk => clk1hz, reset => reset, Inport1 => Inport1, Inport0 => Inport0, 
+--                     OutportB => portB, OutportA => portA, Outport1 => Outport1,
+--                     Outport0 => Outport0, clk_250 => clk250, btn_in => btn_in,
+--                     PWM_DC => pwm_dc, PCt => PC,
+--                     IRt => IR,
+--                     MDRt => MDR,
+--                     At => A,
+--                     Bt => B,
+--                     Ct => C,
+--                     Nt => N,
+--                     Zt => Z,
+--                     Vt => V,
+--                     DATAt => DATA);
 
 --uncomment this for the board
   C1 : cpu port map (clk => clk1hz, reset => reset, Inport1 => Inport1, Inport0 => Inport0, 
                      OutportB => portB, OutportA => portA, Outport1 => Outport1,
-                     Outport0 => Outport0, clk_250 => clk250, btn_in => btn_in,
-                     PWM_DC => pwm_dc);
+                     Outport0 => Outport0, clk_250 => clk250, clk100k => clk100k,
+                     btn_in => btn_in);
   
-
---  P1 : PWM port map(clk => clk1k, DC => pwm_dc, )
 
   M1 : mux port map (clk => clk250, an_sel => an_sel, seven => seven,
                      InportA => portA, InportB => portB);
 
-  C2 : clk_divise port map (clock_in => clk, clk_out => clk250, clock_out_fast => clk1k,
+  C2 : clk_divise port map (clock_in => clk, clk_out => clk250, clock_out_fast => clk100k,
                             clock_out_slow => clk100, clock_out_1hz => clk1hz);
 
 end Behavioral;

@@ -40,8 +40,8 @@ architecture Behavioral of clk_divise is
 
 signal clk_count : std_logic_vector (18 downto 0) := "0000000000000000000";  
 signal slow_count : std_logic_vector (23 downto 0) := "000000000000000000000000";
-signal fast_count : std_logic_vector (13 downto 0) := "00000000000000"; --10000 hz clock
-signal count1hz : std_logic_vector (26 downto 0) := "000000000000000000000000000";
+signal fast_count : std_logic_vector (9 downto 0) := "0000000000"; --100000 hz clock
+signal count1hz : std_logic_vector (25 downto 0) := "00000000000000000000000000";
 
 -- makes three clock signals of three different speeds
 
@@ -75,15 +75,15 @@ begin
         end if;
     end process;
     
--- 1/10 ms clock, 10000 hz
+--  100000 hz
     process(clock_in)
     begin
         if rising_edge(clock_in) then
             fast_count <= fast_count + 1;
-            if fast_count = "10011100010000" then
-                fast_count <= "00000000000000";
+            if fast_count = "1111101000" then
+                fast_count <= "0000000000";
                 clock_out_fast <= '1';
-            elsif fast_count <= "01001110001000" then
+            elsif fast_count <= "0111110100" then
                 clock_out_fast <= '0';
             end if;
         end if;
@@ -94,10 +94,10 @@ begin
     begin
       if rising_edge(clock_in) then
         count1hz <= count1hz + 1;
-        if count1hz = "101111101011110000100000000" then
-          count1hz <= "000000000000000000000000000";
+        if count1hz = "10111110101111000010000000" then
+          count1hz <= "00000000000000000000000000";
           clock_out_1hz <= '1';
-        elsif count1hz <= "010000000000000000000000000" then
+        elsif count1hz <= "01000000000000000000000000" then
           clock_out_1hz <= '0';
         end if;
       end if;
