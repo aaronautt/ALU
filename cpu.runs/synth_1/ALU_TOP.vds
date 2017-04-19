@@ -2,8 +2,8 @@
 # Vivado v2016.3 (64-bit)
 # SW Build 1682563 on Mon Oct 10 19:07:26 MDT 2016
 # IP Build 1681267 on Mon Oct 10 21:28:31 MDT 2016
-# Start of session at: Fri Apr 14 15:01:23 2017
-# Process ID: 25410
+# Start of session at: Wed Apr 19 16:11:47 2017
+# Process ID: 1559
 # Current directory: /home/aaron/school/EGR426/cpu/cpu.runs/synth_1
 # Command line: vivado -log ALU_TOP.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source ALU_TOP.tcl
 # Log file: /home/aaron/school/EGR426/cpu/cpu.runs/synth_1/ALU_TOP.vds
@@ -15,41 +15,41 @@ Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 25476 
+INFO: Helper process launched with PID 6659 
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 1057.109 ; gain = 146.301 ; free physical = 389 ; free virtual = 8230
+Starting RTL Elaboration : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 1057.117 ; gain = 146.301 ; free physical = 321 ; free virtual = 7784
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-638] synthesizing module 'ALU_TOP' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/ALU_TOP.vhd:44]
-INFO: [Synth 8-3491] module 'cpu' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:37' bound to instance 'C1' of component 'cpu' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/ALU_TOP.vhd:105]
-INFO: [Synth 8-638] synthesizing module 'cpu' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:64]
-INFO: [Synth 8-3491] module 'alu' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu.vhd:38' bound to instance 'U1' of component 'alu' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:225]
+INFO: [Synth 8-638] synthesizing module 'ALU_TOP' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/ALU_TOP.vhd:46]
+INFO: [Synth 8-3491] module 'cpu' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:37' bound to instance 'C1' of component 'cpu' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/ALU_TOP.vhd:110]
+INFO: [Synth 8-638] synthesizing module 'cpu' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:67]
+INFO: [Synth 8-3491] module 'alu' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu.vhd:38' bound to instance 'U1' of component 'alu' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:228]
 INFO: [Synth 8-638] synthesizing module 'alu' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu.vhd:45]
 INFO: [Synth 8-256] done synthesizing module 'alu' (1#1) [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu.vhd:45]
-INFO: [Synth 8-3491] module 'microram' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/microram.vhd:37' bound to instance 'U2' of component 'microram' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:231]
+INFO: [Synth 8-3491] module 'microram' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/microram.vhd:37' bound to instance 'U2' of component 'microram' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:234]
 INFO: [Synth 8-638] synthesizing module 'microram' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/microram.vhd:46]
-INFO: [Synth 8-3491] module 'cpuram' declared at '/home/aaron/school/EGR426/cpu/cpu.runs/synth_1/.Xil/Vivado-25410-Aoide-ThinkPad-T410/realtime/cpuram_stub.vhdl:5' bound to instance 'U1' of component 'cpuram' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/microram.vhd:60]
-INFO: [Synth 8-638] synthesizing module 'cpuram' [/home/aaron/school/EGR426/cpu/cpu.runs/synth_1/.Xil/Vivado-25410-Aoide-ThinkPad-T410/realtime/cpuram_stub.vhdl:16]
+INFO: [Synth 8-3491] module 'cpuram' declared at '/home/aaron/school/EGR426/cpu/cpu.runs/synth_1/.Xil/Vivado-1559-Aoide-ThinkPad-T410/realtime/cpuram_stub.vhdl:5' bound to instance 'U1' of component 'cpuram' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/microram.vhd:60]
+INFO: [Synth 8-638] synthesizing module 'cpuram' [/home/aaron/school/EGR426/cpu/cpu.runs/synth_1/.Xil/Vivado-1559-Aoide-ThinkPad-T410/realtime/cpuram_stub.vhdl:16]
 INFO: [Synth 8-256] done synthesizing module 'microram' (2#1) [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/microram.vhd:46]
-INFO: [Synth 8-3491] module 'PWM' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/PWM.vhd:35' bound to instance 'P1' of component 'PWM' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:236]
+INFO: [Synth 8-3491] module 'PWM' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/PWM.vhd:35' bound to instance 'P1' of component 'PWM' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:239]
 INFO: [Synth 8-638] synthesizing module 'PWM' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/PWM.vhd:41]
 INFO: [Synth 8-256] done synthesizing module 'PWM' (3#1) [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/PWM.vhd:41]
-WARNING: [Synth 8-614] signal 'C' is read in the process but is not in the sensitivity list [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:424]
-WARNING: [Synth 8-614] signal 'debounce_out0' is read in the process but is not in the sensitivity list [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:424]
-WARNING: [Synth 8-614] signal 'debounce_out1' is read in the process but is not in the sensitivity list [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:424]
-INFO: [Synth 8-256] done synthesizing module 'cpu' (4#1) [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:64]
-INFO: [Synth 8-3491] module 'mux' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu_mux.vhd:24' bound to instance 'M1' of component 'mux' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/ALU_TOP.vhd:111]
-INFO: [Synth 8-638] synthesizing module 'mux' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu_mux.vhd:31]
-INFO: [Synth 8-226] default block is never used [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu_mux.vhd:40]
-INFO: [Synth 8-256] done synthesizing module 'mux' (5#1) [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu_mux.vhd:31]
-INFO: [Synth 8-3491] module 'clk_divise' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/clerk_divisor.vhd:27' bound to instance 'C2' of component 'clk_divise' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/ALU_TOP.vhd:114]
+WARNING: [Synth 8-614] signal 'C' is read in the process but is not in the sensitivity list [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:435]
+WARNING: [Synth 8-614] signal 'debounce_out0' is read in the process but is not in the sensitivity list [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:435]
+WARNING: [Synth 8-614] signal 'debounce_out1' is read in the process but is not in the sensitivity list [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:435]
+INFO: [Synth 8-256] done synthesizing module 'cpu' (4#1) [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:67]
+INFO: [Synth 8-3491] module 'mux' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu_mux.vhd:24' bound to instance 'M1' of component 'mux' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/ALU_TOP.vhd:116]
+INFO: [Synth 8-638] synthesizing module 'mux' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu_mux.vhd:32]
+INFO: [Synth 8-226] default block is never used [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu_mux.vhd:41]
+INFO: [Synth 8-256] done synthesizing module 'mux' (5#1) [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/alu_mux.vhd:32]
+INFO: [Synth 8-3491] module 'clk_divise' declared at '/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/clerk_divisor.vhd:27' bound to instance 'C2' of component 'clk_divise' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/ALU_TOP.vhd:119]
 INFO: [Synth 8-638] synthesizing module 'clk_divise' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/clerk_divisor.vhd:39]
 INFO: [Synth 8-256] done synthesizing module 'clk_divise' (6#1) [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/clerk_divisor.vhd:39]
-INFO: [Synth 8-256] done synthesizing module 'ALU_TOP' (7#1) [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/ALU_TOP.vhd:44]
+INFO: [Synth 8-256] done synthesizing module 'ALU_TOP' (7#1) [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/ALU_TOP.vhd:46]
 WARNING: [Synth 8-3331] design cpu has unconnected port clk_250
 WARNING: [Synth 8-3331] design cpu has unconnected port btn_in[1]
 WARNING: [Synth 8-3331] design cpu has unconnected port btn_in[0]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 1097.578 ; gain = 186.770 ; free physical = 371 ; free virtual = 8213
+Finished RTL Elaboration : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1097.586 ; gain = 186.770 ; free physical = 275 ; free virtual = 7740
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -59,7 +59,7 @@ Report Check Netlist:
 |1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
 +------+------------------+-------+---------+-------+------------------+
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 1097.578 ; gain = 186.770 ; free physical = 371 ; free virtual = 8212
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 1097.586 ; gain = 186.770 ; free physical = 279 ; free virtual = 7740
 ---------------------------------------------------------------------------------
 WARNING: [Project 1-486] Could not resolve non-primitive black box cell 'cpuram' instantiated as 'C1/U2/U1' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/microram.vhd:60]
 INFO: [Device 21-403] Loading part xc7a35tcpg236-1
@@ -67,8 +67,8 @@ INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
-Parsing XDC File [/home/aaron/school/EGR426/cpu/cpu.runs/synth_1/.Xil/Vivado-25410-Aoide-ThinkPad-T410/dcp/cpuram_in_context.xdc] for cell 'C1/U2/U1'
-Finished Parsing XDC File [/home/aaron/school/EGR426/cpu/cpu.runs/synth_1/.Xil/Vivado-25410-Aoide-ThinkPad-T410/dcp/cpuram_in_context.xdc] for cell 'C1/U2/U1'
+Parsing XDC File [/home/aaron/school/EGR426/cpu/cpu.runs/synth_1/.Xil/Vivado-1559-Aoide-ThinkPad-T410/dcp/cpuram_in_context.xdc] for cell 'C1/U2/U1'
+Finished Parsing XDC File [/home/aaron/school/EGR426/cpu/cpu.runs/synth_1/.Xil/Vivado-1559-Aoide-ThinkPad-T410/dcp/cpuram_in_context.xdc] for cell 'C1/U2/U1'
 Parsing XDC File [/home/aaron/school/EGR426/cpu/cpu.srcs/constrs_1/new/cpu_pins.xdc]
 Finished Parsing XDC File [/home/aaron/school/EGR426/cpu/cpu.srcs/constrs_1/new/cpu_pins.xdc]
 INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/aaron/school/EGR426/cpu/cpu.srcs/constrs_1/new/cpu_pins.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/ALU_TOP_propImpl.xdc].
@@ -78,22 +78,22 @@ Completed Processing XDC Constraints
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1428.855 ; gain = 0.000 ; free physical = 212 ; free virtual = 8053
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 1428.871 ; gain = 0.000 ; free physical = 117 ; free virtual = 7586
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:22 ; elapsed = 00:00:23 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 223 ; free virtual = 8069
+Finished Constraint Validation : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 118 ; free virtual = 7592
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35tcpg236-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:22 ; elapsed = 00:00:23 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 223 ; free virtual = 8069
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 125 ; free virtual = 7598
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:22 ; elapsed = 00:00:23 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 223 ; free virtual = 8069
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:31 ; elapsed = 00:00:32 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 125 ; free virtual = 7598
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-5546] ROM "V" won't be mapped to RAM because it is too sparse
 INFO: [Synth 8-5546] ROM "Z" won't be mapped to RAM because it is too sparse
@@ -120,7 +120,7 @@ INFO: [Synth 8-5544] ROM "CurrState" won't be mapped to Block RAM because addres
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'CurrState_reg' using encoding 'sequential' in module 'cpu'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:23 ; elapsed = 00:00:24 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 208 ; free virtual = 8054
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:32 ; elapsed = 00:00:34 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 145 ; free virtual = 7589
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -145,7 +145,7 @@ Detailed RTL Component Info :
 	               10 Bit    Registers := 1     
 	                9 Bit    Registers := 2     
 	                8 Bit    Registers := 11    
-	                7 Bit    Registers := 3     
+	                7 Bit    Registers := 6     
 	                4 Bit    Registers := 3     
 	                2 Bit    Registers := 1     
 	                1 Bit    Registers := 7     
@@ -155,8 +155,6 @@ Detailed RTL Component Info :
 	   3 Input      8 Bit        Muxes := 2     
 	   5 Input      8 Bit        Muxes := 15    
 	  11 Input      8 Bit        Muxes := 1     
-	   2 Input      7 Bit        Muxes := 2     
-	   6 Input      7 Bit        Muxes := 1     
 	   4 Input      7 Bit        Muxes := 1     
 	   4 Input      4 Bit        Muxes := 1     
 	  11 Input      3 Bit        Muxes := 1     
@@ -165,7 +163,7 @@ Detailed RTL Component Info :
 	   2 Input      1 Bit        Muxes := 11    
 	  11 Input      1 Bit        Muxes := 6     
 	   5 Input      1 Bit        Muxes := 6     
-	   6 Input      1 Bit        Muxes := 10    
+	   6 Input      1 Bit        Muxes := 12    
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -198,7 +196,7 @@ Detailed RTL Component Info :
 +---Registers : 
 	                9 Bit    Registers := 2     
 	                8 Bit    Registers := 9     
-	                7 Bit    Registers := 2     
+	                7 Bit    Registers := 5     
 	                4 Bit    Registers := 2     
 	                1 Bit    Registers := 2     
 +---Muxes : 
@@ -207,14 +205,12 @@ Detailed RTL Component Info :
 	   3 Input      8 Bit        Muxes := 2     
 	   5 Input      8 Bit        Muxes := 15    
 	  11 Input      8 Bit        Muxes := 1     
-	   2 Input      7 Bit        Muxes := 2     
-	   6 Input      7 Bit        Muxes := 1     
 	  11 Input      3 Bit        Muxes := 1     
 	   9 Input      3 Bit        Muxes := 1     
 	   2 Input      1 Bit        Muxes := 10    
 	  11 Input      1 Bit        Muxes := 6     
 	   5 Input      1 Bit        Muxes := 6     
-	   6 Input      1 Bit        Muxes := 10    
+	   6 Input      1 Bit        Muxes := 12    
 Module mux 
 Detailed RTL Component Info : 
 +---Adders : 
@@ -270,50 +266,10 @@ INFO: [Synth 8-3886] merging instance 'C1/debounce_out1_reg[6]' (FDRE) to 'C1/de
 INFO: [Synth 8-3886] merging instance 'C1/debounce_out0_reg[6]' (FDRE) to 'C1/debounce_out0_reg[7]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\C1/debounce_out1_reg[7] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\C1/debounce_out0_reg[7] )
-WARNING: [Synth 8-3332] Sequential element (C1/P1/LED_sig_reg) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/Outport1_reg[7]) is unused and will be removed from module ALU_TOP.
-CRITICAL WARNING: [Synth 8-3352] multi-driven net Q with 1st driver pin 'C1/Outport1_reg[7]/Q' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:236]
-CRITICAL WARNING: [Synth 8-3352] multi-driven net Q with 2nd driver pin 'GND' [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:236]
-CRITICAL WARNING: [Synth 8-5559] multi-driven net Q is connected to constant driver, other driver is ignored [/home/aaron/school/EGR426/cpu/cpu.srcs/sources_1/new/cpu.vhd:236]
-WARNING: [Synth 8-3332] Sequential element (C1/pwm_dc_reg[7]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/pwm_dc_reg[6]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/pwm_dc_reg[5]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/pwm_dc_reg[4]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/pwm_dc_reg[3]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/pwm_dc_reg[2]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/pwm_dc_reg[1]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/pwm_dc_reg[0]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C2/fast_count_reg[9]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C2/fast_count_reg[8]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C2/fast_count_reg[7]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C2/fast_count_reg[6]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C2/fast_count_reg[5]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C2/fast_count_reg[4]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C2/fast_count_reg[3]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C2/fast_count_reg[2]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C2/fast_count_reg[1]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C2/fast_count_reg[0]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C2/clock_out_fast_reg) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/duty_cycle_reg[7]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/duty_cycle_reg[6]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/duty_cycle_reg[5]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/duty_cycle_reg[4]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/duty_cycle_reg[3]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/duty_cycle_reg[2]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/duty_cycle_reg[1]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/duty_cycle_reg[0]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/pwm_count_reg[7]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/pwm_count_reg[6]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/pwm_count_reg[5]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/pwm_count_reg[4]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/pwm_count_reg[3]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/pwm_count_reg[2]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/pwm_count_reg[1]) is unused and will be removed from module ALU_TOP.
-WARNING: [Synth 8-3332] Sequential element (C1/P1/pwm_count_reg[0]) is unused and will be removed from module ALU_TOP.
 WARNING: [Synth 8-3332] Sequential element (C1/debounce_out1_reg[7]) is unused and will be removed from module ALU_TOP.
 WARNING: [Synth 8-3332] Sequential element (C1/debounce_out0_reg[7]) is unused and will be removed from module ALU_TOP.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:25 ; elapsed = 00:00:26 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 189 ; free virtual = 8036
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:34 ; elapsed = 00:00:36 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 117 ; free virtual = 7563
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -328,10 +284,10 @@ Start Timing Optimization
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:36 ; elapsed = 00:00:37 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 128 ; free virtual = 7932
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:49 ; elapsed = 00:00:51 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 130 ; free virtual = 7526
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:37 ; elapsed = 00:00:38 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 128 ; free virtual = 7932
+Finished Timing Optimization : Time (s): cpu = 00:00:49 ; elapsed = 00:00:51 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 138 ; free virtual = 7534
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -343,7 +299,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:37 ; elapsed = 00:00:38 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 124 ; free virtual = 7910
+Finished Technology Mapping : Time (s): cpu = 00:00:49 ; elapsed = 00:00:51 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 119 ; free virtual = 7506
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -367,7 +323,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:37 ; elapsed = 00:00:38 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 127 ; free virtual = 7911
+Finished IO Insertion : Time (s): cpu = 00:00:50 ; elapsed = 00:00:52 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 140 ; free virtual = 7515
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -380,7 +336,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:37 ; elapsed = 00:00:38 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 127 ; free virtual = 7911
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:50 ; elapsed = 00:00:52 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 140 ; free virtual = 7514
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -392,25 +348,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:37 ; elapsed = 00:00:38 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 127 ; free virtual = 7911
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:50 ; elapsed = 00:00:52 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 140 ; free virtual = 7515
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:37 ; elapsed = 00:00:38 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 127 ; free virtual = 7911
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:50 ; elapsed = 00:00:52 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 140 ; free virtual = 7515
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 127 ; free virtual = 7911
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:50 ; elapsed = 00:00:52 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 140 ; free virtual = 7514
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 127 ; free virtual = 7911
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:50 ; elapsed = 00:00:52 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 140 ; free virtual = 7514
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -430,17 +386,17 @@ Report Cell Usage:
 |1     |cpuram_bbox |     1|
 |2     |BUFG        |     2|
 |3     |CARRY4      |    16|
-|4     |LUT1        |    49|
-|5     |LUT2        |    27|
-|6     |LUT3        |    32|
-|7     |LUT4        |    32|
-|8     |LUT5        |    25|
-|9     |LUT6        |    97|
+|4     |LUT1        |    51|
+|5     |LUT2        |    30|
+|6     |LUT3        |    29|
+|7     |LUT4        |    39|
+|8     |LUT5        |    38|
+|9     |LUT6        |   114|
 |10    |MUXF7       |     2|
 |11    |FDCE        |    58|
-|12    |FDPE        |    15|
-|13    |FDRE        |    76|
-|14    |FDSE        |    13|
+|12    |FDPE        |    29|
+|13    |FDRE        |   117|
+|14    |FDSE        |     8|
 |15    |IBUF        |    18|
 |16    |OBUF        |    27|
 +------+------------+------+
@@ -449,19 +405,20 @@ Report Instance Areas:
 +------+---------+-----------+------+
 |      |Instance |Module     |Cells |
 +------+---------+-----------+------+
-|1     |top      |           |   497|
-|2     |  C1     |cpu        |   304|
-|3     |    U1   |alu        |    31|
-|4     |    U2   |microram   |   121|
-|5     |  C2     |clk_divise |   123|
-|6     |  M1     |mux        |    23|
+|1     |top      |           |   586|
+|2     |  C1     |cpu        |   366|
+|3     |    P1   |PWM        |    36|
+|4     |    U1   |alu        |    31|
+|5     |    U2   |microram   |   121|
+|6     |  C2     |clk_divise |   150|
+|7     |  M1     |mux        |    23|
 +------+---------+-----------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 1428.855 ; gain = 518.047 ; free physical = 127 ; free virtual = 7911
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:50 ; elapsed = 00:00:52 . Memory (MB): peak = 1428.871 ; gain = 518.055 ; free physical = 140 ; free virtual = 7514
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 3 critical warnings and 41 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 1428.855 ; gain = 87.465 ; free physical = 127 ; free virtual = 7911
-Synthesis Optimization Complete : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 1428.863 ; gain = 518.055 ; free physical = 128 ; free virtual = 7913
+Synthesis finished with 0 errors, 0 critical warnings and 4 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 1428.871 ; gain = 87.465 ; free physical = 140 ; free virtual = 7514
+Synthesis Optimization Complete : Time (s): cpu = 00:00:50 ; elapsed = 00:00:53 . Memory (MB): peak = 1428.879 ; gain = 518.062 ; free physical = 140 ; free virtual = 7514
 INFO: [Project 1-571] Translating synthesized netlist
 INFO: [Netlist 29-17] Analyzing 34 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -471,9 +428,9 @@ INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
 INFO: [Common 17-83] Releasing license: Synthesis
-76 Infos, 48 Warnings, 3 Critical Warnings and 0 Errors encountered.
+76 Infos, 11 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:36 ; elapsed = 00:00:37 . Memory (MB): peak = 1428.863 ; gain = 431.336 ; free physical = 123 ; free virtual = 7908
+synth_design: Time (s): cpu = 00:00:49 ; elapsed = 00:00:50 . Memory (MB): peak = 1428.879 ; gain = 431.344 ; free physical = 135 ; free virtual = 7513
 INFO: [Common 17-1381] The checkpoint '/home/aaron/school/EGR426/cpu/cpu.runs/synth_1/ALU_TOP.dcp' has been generated.
-report_utilization: Time (s): cpu = 00:00:00.15 ; elapsed = 00:00:00.23 . Memory (MB): peak = 1452.867 ; gain = 0.000 ; free physical = 166 ; free virtual = 7912
-INFO: [Common 17-206] Exiting Vivado at Fri Apr 14 15:02:13 2017...
+report_utilization: Time (s): cpu = 00:00:00.15 ; elapsed = 00:00:00.25 . Memory (MB): peak = 1452.883 ; gain = 0.000 ; free physical = 123 ; free virtual = 7506
+INFO: [Common 17-206] Exiting Vivado at Wed Apr 19 16:12:56 2017...

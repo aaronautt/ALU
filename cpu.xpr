@@ -31,20 +31,20 @@
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="basys3"/>
     <Option Name="DSANumComputeUnits" Val="16"/>
-    <Option Name="WTXSimLaunchSim" Val="80"/>
+    <Option Name="WTXSimLaunchSim" Val="101"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="18"/>
-    <Option Name="WTModelSimExportSim" Val="18"/>
-    <Option Name="WTQuestaExportSim" Val="18"/>
-    <Option Name="WTIesExportSim" Val="18"/>
-    <Option Name="WTVcsExportSim" Val="18"/>
-    <Option Name="WTRivieraExportSim" Val="18"/>
-    <Option Name="WTActivehdlExportSim" Val="18"/>
+    <Option Name="WTXSimExportSim" Val="26"/>
+    <Option Name="WTModelSimExportSim" Val="26"/>
+    <Option Name="WTQuestaExportSim" Val="26"/>
+    <Option Name="WTIesExportSim" Val="26"/>
+    <Option Name="WTVcsExportSim" Val="26"/>
+    <Option Name="WTRivieraExportSim" Val="26"/>
+    <Option Name="WTActivehdlExportSim" Val="26"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -54,13 +54,13 @@
   <FileSets Version="1" Minor="31">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
       <Filter Type="Srcs"/>
-      <File Path="$PSRCDIR/sources_1/new/PWM.vhd">
+      <File Path="$PSRCDIR/sources_1/new/microram.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/new/microram.vhd">
+      <File Path="$PSRCDIR/sources_1/new/PWM.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -141,7 +141,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/cputb1_behav.wcfg">
+      <File Path="$PPRDIR/cputb1_behav2.wcfg">
         <FileInfo>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
@@ -154,6 +154,8 @@
         <Option Name="TransportIntDelay" Val="0"/>
         <Option Name="SrcSet" Val="sources_1"/>
         <Option Name="XSimWcfgFile" Val="$PPRDIR/cputb1_behav.wcfg"/>
+        <Option Name="XSimWcfgFile" Val="$PPRDIR/cputb1_behav1.wcfg"/>
+        <Option Name="XSimWcfgFile" Val="$PPRDIR/cputb1_behav2.wcfg"/>
       </Config>
     </FileSet>
     <FileSet Name="cpuram" Type="BlockSrcs" RelSrcDir="$PSRCDIR/cpuram">
@@ -202,9 +204,7 @@
     </Run>
     <Run Id="cpuram_synth_1" Type="Ft3:Synth" SrcSet="cpuram" Part="xc7a35tcpg236-1" ConstrsSet="cpuram" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/cpuram_synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -228,9 +228,7 @@
     </Run>
     <Run Id="cpuram_impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="cpuram" Description="Default settings for Implementation." SynthRun="cpuram_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>

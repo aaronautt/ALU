@@ -39,8 +39,11 @@ entity cpu is
        clk_250, clk100k : in STD_LOGIC;
        reset : in STD_LOGIC;
        Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
-       Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
+       Outport0 : out STD_LOGIC_VECTOR(7 downto 0);
+       Outport1 : out STD_LOGIC_VECTOR(6 downto 0);
+       PWM_OUT : out STD_LOGIC;
        OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
+       OutportC, OutportD : out STD_LOGIC_VECTOR(6 downto 0);
        btn_in : in STD_LOGIC_VECTOR(1 downto 0));
 end cpu;
 
@@ -75,7 +78,7 @@ signal ALU_FUNC : STD_LOGIC_VECTOR(2 downto 0);
 signal ALU_OUT : SIGNED(7 downto 0);
 signal ALU_N, ALU_V, ALU_Z : STD_LOGIC;
 
--- ------------ Declare the 512x8 RAM component --------------
+------------ Declare the 512x8 RAM component --------------
 component microram is
 port (  CLOCK   : in STD_LOGIC ;
 		ADDRESS	: in STD_LOGIC_VECTOR (8 downto 0);
@@ -93,7 +96,7 @@ end component;
 --  		WE	: in STD_LOGIC 
 --  	 );
 -- end component;
-
+-- 
 ---------------PWM component ----------------------------------
 component PWM is
   Port (clk : in std_logic;
@@ -233,7 +236,7 @@ U2 : microram PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, 
 --U2 : microram_sim PORT MAP (CLOCK => clk, ADDRESS => ADDR, DATAOUT => RAM_DATA_OUT, DATAIN => DATA, WE => RAM_WE);
 
 -----------------Instantiate PWM controller
-P1 : PWM port map(clk => clk100k, DC => pwm_dc, LED_sig => Outport1(7));
+P1 : PWM port map(clk => clk100k, DC => pwm_dc, LED_sig => PWM_OUT);
 
 
 
@@ -322,6 +325,8 @@ begin
     Outport1 <= (others => '0');
     OutportB <= (others => '1');
     OutportA <= (others => '1');
+    OutportD <= (others => '1');
+    OutportC <= (others => '1');
     temp := 0;
   elsif(rising_edge(clk)) then
     case CurrState is
@@ -353,68 +358,74 @@ begin
 
 
       when Execute => --if(temp = 2) then 
-		                    PC <= PC + 1;
-                      --else
-                        --PC <= PC + 1;
-                        --temp := temp +1;
-                      --end if;
-                      CurrState <= Fetch;
-                      --if Exc_ClrWrite = '1' then
-                      --  CurrState <= Memory2;
-                      --else
-                      --  CurrState <= Fetch;
-                      --end if;
+        PC <= PC + 1;
+        --else
+        --PC <= PC + 1;
+        --temp := temp +1;
+        --end if;
+        CurrState <= Fetch;
+        --if Exc_ClrWrite = '1' then
+        --  CurrState <= Memory2;
+        --else
+        --  CurrState <= Fetch;
+        --end if;
 
-                      
-                      if(Exc_RegWrite = '1') then   -- Writing result to A or B
-                        if(IR(0) = '0') then
-                          A <= SIGNED(DATA);
-                        else
-                          B <= SIGNED(DATA);
-                        end if;
-                      end if;
-                      
-                      if(Exc_CCWrite = '1') then    -- Updating flag bits
-                        V <= ALU_V;
-                        N <= ALU_N;
-                        Z <= ALU_Z;
-                      end if;
+        
+        if(Exc_RegWrite = '1') then   -- Writing result to A or B
+          if(IR(0) = '0') then
+            A <= SIGNED(DATA);
+          else
+            B <= SIGNED(DATA);
+          end if;
+        end if;
+        
+        if(Exc_CCWrite = '1') then    -- Updating flag bits
+          V <= ALU_V;
+          N <= ALU_N;
+          Z <= ALU_Z;
+        end if;
 
 
-                      if(Exc_IOWrite = '1') then    -- Write to Outport0 or OutPort1
-                        if(IR(1) = '0') then
-                          Outport0 <= DATA;
-                        else
-                          --The top bit of outport1 is ignored, so that the PWM
-                          --can have control of this LED
-                          Outport1(6 downto 0) <= DATA(6 downto 0);
-                        end if;
-                      end if;
+        if(Exc_IOWrite = '1') then    -- Write to Outport0 or OutPort1
+          if(IR(1) = '0') then
+            Outport0 <= DATA;
+          else
+            --The top bit of outport1 is ignored, so that the PWM
+            --can have control of this 
+            Outport1 <= DATA(6 downto 0);
+          end if;
+        end if;
 
-                      if(Exc_DoubleWrite = '1') then -- write to seven seg s
-                        OutportA <= BCD_conv(std_logic_vector(DATA(3 downto 0)));
-                        OutportB <= BCD_conv(std_logic_vector(DATA(7 downto 4)));
-                      end if;
+        if(Exc_DoubleWrite = '1') then -- write to seven seg s
+          if IR(0) = '0' then
+            OutportA <= BCD_conv(std_logic_vector(DATA(3 downto 0)));
+            OutportB <= BCD_conv(std_logic_vector(DATA(7 downto 4)));
+          else
+            OutportC <= BCD_conv(std_logic_vector(DATA(3 downto 0)));
+            OutportD <= BCD_conv(std_logic_vector(DATA(7 downto 4)));
+          end if;
 
-                      if(Exc_DBWrite = '1') then
-                          if(IR(0) = '0') then
-                            A <= signed(DATA);
-                          else
-                            B <= signed(DATA);
-                          end if;
-                      end if;
+        end if;
 
-                      if Exc_ClrWrite = '1' then
-                        C <= signed(clear_bit(DATA, conv_integer(unsigned(IR(4 downto 2)))));
-                        CurrState <= Memory2;
-                        N <= ALU_N; -- set flag bits
-                        Z <= ALU_Z;
-                      end if;
+        if(Exc_DBWrite = '1') then
+          if(IR(0) = '0') then
+            A <= signed(DATA);
+          else
+            B <= signed(DATA);
+          end if;
+        end if;
 
-                        if Exc_PWMWrite = '1' then
-                          pwm_dc <= DATA;
-                        end if;
-                      
+        if Exc_ClrWrite = '1' then
+          C <= signed(clear_bit(DATA, conv_integer(unsigned(IR(4 downto 2)))));
+          CurrState <= Memory2;
+          N <= ALU_N; -- set flag bits
+          Z <= '0';
+        end if;
+
+        if Exc_PWMWrite = '1' then
+          pwm_dc <= DATA;
+        end if;
+        
 			when Others => CurrState <= Fetch;
 		end case;
 	end if;
@@ -521,7 +532,7 @@ begin
       end if;
       Exc_DoubleWrite <= '1';
 
-    when "0010000"|"0010001" =>    --Debounce
+    when "0010000"|"0010001" =>    --Debounce 001000br b is bit, r is register
       if IR(1) = '0' then
         DATA <= debounce_out0;
       else

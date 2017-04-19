@@ -80,6 +80,7 @@ begin
      if(STD_LOGIC_VECTOR(RETVAL) = "10000000") then
         V <= '1';
      end if;
+
   else                                              -- CLR
      RETVAL := "00000000";
   end if;

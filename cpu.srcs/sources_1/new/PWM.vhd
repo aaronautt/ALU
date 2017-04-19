@@ -64,8 +64,8 @@ begin
        LED_sig <= '1';
      elsif pwm_count = duty_cycle then
        LED_sig <= '0';
-     else
-       LED_sig <= '0';
+     -- else
+     --   LED_sig <= '0';
      end if;
      end if;
    end process;

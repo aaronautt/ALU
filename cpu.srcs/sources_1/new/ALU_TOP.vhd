@@ -37,7 +37,9 @@ entity ALU_TOP is
         an_sel : out STD_LOGIC_VECTOR(3 downto 0);
         seven : out STD_LOGIC_VECTOR(6 downto 0);
         Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
-        Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
+        Outport0 : out STD_LOGIC_VECTOR(7 downto 0);
+        Outport1 : out STD_LOGIC_VECTOR(6 downto 0);
+        PWM_OUT : out STD_LOGIC;
         btn_in : in STD_LOGIC_VECTOR(1 downto 0));
 end ALU_TOP;
 
@@ -48,8 +50,11 @@ architecture Behavioral of ALU_TOP is
          clk_250, clk100k :in STD_LOGIC;
          reset : in STD_LOGIC;
          Inport0, Inport1 : in STD_LOGIC_VECTOR(7 downto 0);
-         Outport0, Outport1	: out STD_LOGIC_VECTOR(7 downto 0);
+         Outport0 : out STD_LOGIC_VECTOR(7 downto 0);
+         Outport1 : out STD_LOGIC_VECTOR(6 downto 0);
+         PWM_OUT : out STD_LOGIC;
          OutportA, OutportB : out STD_LOGIC_VECTOR(6 downto 0);
+         OutportC, OutportD : out STD_LOGIC_VECTOR(6 downto 0);
          btn_in : in STD_LOGIC_VECTOR(1 downto 0));
   end component;
 
@@ -59,7 +64,7 @@ architecture Behavioral of ALU_TOP is
     port(an_sel : out std_logic_vector (3 downto 0); --anode selection
          seven : out std_logic_vector (6 downto 0); -- seven segment display selection
            clk : in std_logic;
-           InportA, InportB : in std_logic_vector(6 downto 0));
+           InportA, InportB, InportC, InportD : in std_logic_vector(6 downto 0));
   end component;
 
 
@@ -73,7 +78,7 @@ architecture Behavioral of ALU_TOP is
 
 
 
-signal portA, portB : std_logic_vector(6 downto 0);
+signal portA, portB, portC, portD : std_logic_vector(6 downto 0);
 signal clk250, clk100, clk100k, clk1hz : std_logic;
   signal PC : UNSIGNED(8 downto 0);
   signal IR : STD_LOGIC_VECTOR(7 downto 0);
@@ -105,11 +110,11 @@ begin
   C1 : cpu port map (clk => clk1hz, reset => reset, Inport1 => Inport1, Inport0 => Inport0, 
                      OutportB => portB, OutportA => portA, Outport1 => Outport1,
                      Outport0 => Outport0, clk_250 => clk250, clk100k => clk100k,
-                     btn_in => btn_in);
+                     btn_in => btn_in, PWM_OUT => PWM_OUT, OutportC => portC, OutportD => portD);
   
 
   M1 : mux port map (clk => clk250, an_sel => an_sel, seven => seven,
-                     InportA => portA, InportB => portB);
+                     InportA => portA, InportB => portB, InportC => portC, InportD => portD);
 
   C2 : clk_divise port map (clock_in => clk, clk_out => clk250, clock_out_fast => clk100k,
                             clock_out_slow => clk100, clock_out_1hz => clk1hz);

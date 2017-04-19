@@ -2,8 +2,8 @@
 # Vivado v2016.3 (64-bit)
 # SW Build 1682563 on Mon Oct 10 19:07:26 MDT 2016
 # IP Build 1681267 on Mon Oct 10 21:28:31 MDT 2016
-# Start of session at: Fri Apr 14 15:02:14 2017
-# Process ID: 25663
+# Start of session at: Wed Apr 19 16:12:56 2017
+# Process ID: 19144
 # Current directory: /home/aaron/school/EGR426/cpu/cpu.runs/impl_1
 # Command line: vivado -log ALU_TOP.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source ALU_TOP.tcl -notrace
 # Log file: /home/aaron/school/EGR426/cpu/cpu.runs/impl_1/ALU_TOP.vdi

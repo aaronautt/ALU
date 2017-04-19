@@ -1,7 +1,7 @@
 Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2016.3 (lin64) Build 1682563 Mon Oct 10 19:07:26 MDT 2016
-| Date         : Fri Apr 14 15:02:58 2017
+| Date         : Wed Apr 19 16:13:51 2017
 | Host         : Aoide-ThinkPad-T410 running 64-bit Ubuntu 16.10
 | Command      : report_control_sets -verbose -file ALU_TOP_control_sets_placed.rpt
 | Design       : ALU_TOP
@@ -22,8 +22,8 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Number of unique control sets                            |    22 |
-| Unused register locations in slices containing registers |    78 |
+| Number of unique control sets                            |    28 |
+| Unused register locations in slices containing registers |   100 |
 +----------------------------------------------------------+-------+
 
 
@@ -33,57 +33,64 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |               4 |            4 |
+| No           | No                    | No                     |              11 |            5 |
 | No           | No                    | Yes                    |               3 |            3 |
-| No           | Yes                   | No                     |              66 |           21 |
-| Yes          | No                    | No                     |              19 |            6 |
-| Yes          | No                    | Yes                    |              70 |           24 |
-| Yes          | Yes                   | No                     |               0 |            0 |
+| No           | Yes                   | No                     |              86 |           26 |
+| Yes          | No                    | No                     |              27 |           11 |
+| Yes          | No                    | Yes                    |              84 |           30 |
+| Yes          | Yes                   | No                     |               1 |            1 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 3. Detailed Control Set Information
 -----------------------------------
 
-+----------------+-------------------------+-------------------------+------------------+----------------+
-|  Clock Signal  |      Enable Signal      |     Set/Reset Signal    | Slice Load Count | Bel Load Count |
-+----------------+-------------------------+-------------------------+------------------+----------------+
-|  C2/clk_out    |                         | M1/count[0]             |                1 |              1 |
-|  clk1hz_BUFG   | C1/last_Inport0_i_1_n_0 |                         |                1 |              1 |
-|  clk1hz_BUFG   | C1/last_Inport1_i_1_n_0 |                         |                1 |              1 |
-|  C2/clk_out    |                         |                         |                2 |              2 |
-|  C2/clk_out    |                         | M1/plusOp[0]            |                1 |              2 |
-|  clk1hz_BUFG   |                         |                         |                2 |              2 |
-|  clk1hz_BUFG   |                         | reset_IBUF              |                3 |              3 |
-|  clk1hz_BUFG   |                         | C1/last_Inport1_i_1_n_0 |                1 |              4 |
-|  clk1hz_BUFG   |                         | C1/last_Inport0_i_1_n_0 |                1 |              4 |
-|  clk1hz_BUFG   | C1/p_3_out[6]           | reset_IBUF              |                4 |              7 |
-|  clk1hz_BUFG   | C1/IR                   | reset_IBUF              |                2 |              8 |
-|  clk1hz_BUFG   | C1/MDR                  | reset_IBUF              |                1 |              8 |
-|  clk1hz_BUFG   | C1/Outport0[7]_i_1_n_0  | reset_IBUF              |                3 |              8 |
-|  clk1hz_BUFG   | C1/A                    | reset_IBUF              |                4 |              8 |
-|  clk1hz_BUFG   | C1/B                    | reset_IBUF              |                4 |              8 |
-|  clk1hz_BUFG   | C1/C0                   |                         |                2 |              8 |
-|  C2/clk_out    |                         | M1/plusOp[1]            |                3 |              8 |
-|  clk1hz_BUFG   | C1/U2/E[0]              | reset_IBUF              |                3 |              9 |
-|  clk1hz_BUFG   | C1/last_reg0            |                         |                2 |              9 |
-|  clk1hz_BUFG   | C1/OutportA[6]_i_1_n_0  | reset_IBUF              |                3 |             14 |
-|  clk_IBUF_BUFG |                         | C2/clk_count[0]_i_1_n_0 |                6 |             20 |
-|  clk_IBUF_BUFG |                         | C2/count1hz[0]_i_1_n_0  |                8 |             27 |
-+----------------+-------------------------+-------------------------+------------------+----------------+
++----------------------+-------------------------+--------------------------+------------------+----------------+
+|     Clock Signal     |      Enable Signal      |     Set/Reset Signal     | Slice Load Count | Bel Load Count |
++----------------------+-------------------------+--------------------------+------------------+----------------+
+|  clk1hz_BUFG         | C1/last_Inport1_i_1_n_0 |                          |                1 |              1 |
+|  C2/pwm_count_reg[7] | C1/P1/eqOp              | C1/P1/LED_sig_i_1_n_0    |                1 |              1 |
+|  clk1hz_BUFG         | C1/last_Inport0_i_1_n_0 |                          |                1 |              1 |
+|  C2/clk_out          |                         | M1/plusOp[1]             |                1 |              1 |
+|  C2/clk_out          |                         | M1/count[0]              |                1 |              1 |
+|  C2/clk_out          |                         | M1/plusOp[0]             |                1 |              2 |
+|  clk1hz_BUFG         |                         |                          |                2 |              2 |
+|  clk1hz_BUFG         |                         | reset_IBUF               |                3 |              3 |
+|  clk1hz_BUFG         |                         | C1/last_Inport1_i_1_n_0  |                1 |              4 |
+|  clk1hz_BUFG         |                         | C1/last_Inport0_i_1_n_0  |                1 |              4 |
+|  clk1hz_BUFG         | C1/Outport1[6]_i_1_n_0  | reset_IBUF               |                3 |              7 |
+|  clk1hz_BUFG         | C1/MDR                  | reset_IBUF               |                5 |              8 |
+|  clk1hz_BUFG         | C1/Outport0[7]_i_1_n_0  | reset_IBUF               |                5 |              8 |
+|  C2/pwm_count_reg[7] |                         | C1/P1/clear              |                2 |              8 |
+|  clk1hz_BUFG         | C1/IR                   | reset_IBUF               |                2 |              8 |
+|  clk1hz_BUFG         | C1/C0                   |                          |                3 |              8 |
+|  clk1hz_BUFG         | C1/B                    | reset_IBUF               |                4 |              8 |
+|  clk1hz_BUFG         | C1/A                    | reset_IBUF               |                3 |              8 |
+|  clk1hz_BUFG         | C1/pwm_dc0              |                          |                2 |              8 |
+|  C2/pwm_count_reg[7] |                         | C1/P1/gtOp               |                1 |              8 |
+|  clk1hz_BUFG         | C1/last_reg0            |                          |                4 |              9 |
+|  clk1hz_BUFG         | C1/U2/E[0]              | reset_IBUF               |                3 |              9 |
+|  C2/clk_out          |                         |                          |                3 |              9 |
+|  clk_IBUF_BUFG       |                         | C2/fast_count[9]_i_1_n_0 |                4 |             11 |
+|  clk1hz_BUFG         | C1/OutportC[6]_i_1_n_0  | reset_IBUF               |                3 |             14 |
+|  clk1hz_BUFG         | C1/OutportA[6]_i_1_n_0  | reset_IBUF               |                2 |             14 |
+|  clk_IBUF_BUFG       |                         | C2/clk_count[0]_i_1_n_0  |                6 |             20 |
+|  clk_IBUF_BUFG       |                         | C2/count1hz[0]_i_1_n_0   |                8 |             27 |
++----------------------+-------------------------+--------------------------+------------------+----------------+
 
 
 +--------+-----------------------+
 | Fanout | Number of ControlSets |
 +--------+-----------------------+
-| 1      |                     3 |
-| 2      |                     3 |
+| 1      |                     5 |
+| 2      |                     2 |
 | 3      |                     1 |
 | 4      |                     2 |
 | 7      |                     1 |
-| 8      |                     7 |
-| 9      |                     2 |
-| 14     |                     1 |
+| 8      |                     9 |
+| 9      |                     3 |
+| 11     |                     1 |
+| 14     |                     2 |
 | 16+    |                     2 |
 +--------+-----------------------+
 

@@ -25,7 +25,8 @@ entity mux is
   port(an_sel : out std_logic_vector (3 downto 0); --anode selection
        seven : out std_logic_vector (6 downto 0); -- seven segment display selection
        clk : in std_logic;
-       InportA, InportB : in std_logic_vector(6 downto 0));
+       InportA, InportB : in std_logic_vector(6 downto 0);
+       InportC, InportD : in std_logic_vector(6 downto 0));
 end mux;
 
 architecture Behavioral of mux is
@@ -46,10 +47,10 @@ variable count : std_logic_vector (1 downto 0) := "00";
                 seven <= InportA;
             when "10" =>
                 an_sel <= "1101";
-                seven <= "1111111";
+                seven <= InportD;
             when "11" =>
                 an_sel <= "1110";
-                seven <= "1111111";
+                seven <= InportC;
             when others =>
                 an_sel <= "XXXX";
                 seven <= "XXXXXXX";
